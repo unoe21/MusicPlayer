@@ -1,0 +1,191 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\playlistsview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\playlistsview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\artistsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\artistsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\albumsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\albumsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\songsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\songsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\songsview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\songsview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\playlistsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\playlistsview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|c:\\users\\udvar\\onedrive - \u00F3budai egyetem\\asztal\\musicplayer\\musicplayer\\musicplayer\\mvvm\\view\\homeview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B829B463-8615-49F9-B25A-CC2F86382B8F}|MusicPlayer\\MusicPlayer.csproj|solutionrelative:musicplayer\\mvvm\\view\\homeview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\MainWindow.xaml",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\MainWindow.xaml",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-13T14:36:40.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ArtistsView.xaml",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\ArtistsView.xaml",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\ArtistsView.xaml",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\ArtistsView.xaml",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\ArtistsView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-13T18:35:26.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "HomeView.xaml",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\HomeView.xaml",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\HomeView.xaml",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\HomeView.xaml",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\HomeView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-13T15:34:05.766Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlaylistsView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\PlaylistsView.xaml.cs",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\PlaylistsView.xaml.cs",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\PlaylistsView.xaml.cs",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\PlaylistsView.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T18:21:53.921Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\MainWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAABoAAAAiAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T12:18:30.436Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SongsView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\SongsView.xaml.cs",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\SongsView.xaml.cs",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\SongsView.xaml.cs",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\SongsView.xaml.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAQwCQAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T12:07:23.111Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "AlbumsView.xaml",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\AlbumsView.xaml",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\AlbumsView.xaml",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\AlbumsView.xaml",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\AlbumsView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-13T17:12:16.445Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "SongsView.xaml",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\SongsView.xaml",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\SongsView.xaml",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\SongsView.xaml",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\SongsView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-13T12:07:31.469Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainViewModel.cs",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\ViewModel\\MainViewModel.cs",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\ViewModel\\MainViewModel.cs",
+              "ViewState": "AgIAAEEBAAAAAAAAAAAwwB8AAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T12:02:18.217Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "HomeView.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\HomeView.xaml.cs",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\HomeView.xaml.cs",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\HomeView.xaml.cs",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\HomeView.xaml.cs",
+              "ViewState": "AgIAACIAAAAAAAAAAAAYwC0AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-13T12:02:15.899Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "PlaylistsView.xaml",
+              "DocumentMoniker": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\PlaylistsView.xaml",
+              "RelativeDocumentMoniker": "MusicPlayer\\MVVM\\View\\PlaylistsView.xaml",
+              "ToolTip": "C:\\Users\\udvar\\OneDrive - \u00D3budai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MVVM\\View\\PlaylistsView.xaml",
+              "RelativeToolTip": "MusicPlayer\\MVVM\\View\\PlaylistsView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-04-13T18:17:24.828Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

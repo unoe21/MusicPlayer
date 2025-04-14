@@ -1,0 +1,20 @@
+﻿MusicPlayer
+1.0.0.0
+
+winexe
+C#
+.cs
+C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\
+MusicPlayer
+none
+false
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP
+C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\App.xaml
+6758711045
+
+161387659825
+201-1869588556
+MVVM\View\AlbumsView.xaml;MVVM\View\ArtistsView.xaml;MVVM\View\HomeView.xaml;MVVM\View\MainWindow.xaml;MVVM\View\PlaylistsView.xaml;MVVM\View\SongsView.xaml;
+
+False
+

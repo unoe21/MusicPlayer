@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "jkTVGH5OB/M=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\udvar\\OneDrive - Óbudai egyetem\\Asztal\\MusicPlayer\\MusicPlayer\\MusicPlayer\\MusicPlayer.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\udvar\\.nuget\\packages\\mahapps.metro.iconpacks.core\\5.1.0\\mahapps.metro.iconpacks.core.5.1.0.nupkg.sha512",
+    "C:\\Users\\udvar\\.nuget\\packages\\mahapps.metro.iconpacks.material\\5.1.0\\mahapps.metro.iconpacks.material.5.1.0.nupkg.sha512",
+    "C:\\Users\\udvar\\.nuget\\packages\\system.text.json\\8.0.5\\system.text.json.8.0.5.nupkg.sha512",
+    "C:\\Users\\udvar\\.nuget\\packages\\taglibsharp\\2.3.0\\taglibsharp.2.3.0.nupkg.sha512"
+  ],
+  "logs": []
+}
