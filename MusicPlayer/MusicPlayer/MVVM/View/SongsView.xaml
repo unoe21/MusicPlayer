@@ -21,7 +21,7 @@
                     <DropShadowEffect/>
                 </Border.Effect>
 
-                <!-- A ListBox-ot a AllTracks gyűjteményhez kötjük -->
+                <!-- A ListBox-ot a AllTracks gyűjteményhez kötve -->
                 <ListBox x:Name="SongsListBox"
                          ItemsSource="{Binding AllTracks}" SelectionMode="Single"
                          SelectionChanged="Track_SelectionChanged"
@@ -29,9 +29,8 @@
                          Margin="10 20 10 10"
                          Height="415"
                          BorderThickness="0"
-                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                         >
-                    <!-- Stílus a ListBoxItem-ekhez -->
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Foreground" Value="White"/>
@@ -42,8 +41,8 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
                                         <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="true">
+                                                Background="{TemplateBinding Background}"
+                                                SnapsToDevicePixels="true">
                                             <ContentPresenter />
                                         </Border>
                                         <ControlTemplate.Triggers>
@@ -69,24 +68,20 @@
                             <Grid HorizontalAlignment="Stretch" Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <!-- A cím bal oldali része -->
                                     <ColumnDefinition Width="Auto" />
-                                    <!-- Az idő jobbra igazítva -->
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Cím a bal oldalon -->
                                 <TextBlock Text="{Binding Title}" 
-                                               FontSize="18" FontWeight="SemiBold"
-                                               Foreground="White" 
-                                               VerticalAlignment="Center" />
+                                           FontSize="18" FontWeight="SemiBold"
+                                           Foreground="White" 
+                                           VerticalAlignment="Center" />
 
-                                <!-- Az idő a Grid második oszlopában lesz elhelyezve, a jobb szélen -->
                                 <TextBlock Text="{Binding Duration, StringFormat={}{0:mm\\:ss}}" 
-                                               Grid.Column="1"
-                                               FontSize="18" FontWeight="SemiBold"
-                                               Foreground="White" 
-                                               HorizontalAlignment="Right" 
-                                               VerticalAlignment="Center"/>
+                                           Grid.Column="1"
+                                           FontSize="18" FontWeight="SemiBold"
+                                           Foreground="White" 
+                                           HorizontalAlignment="Right" 
+                                           VerticalAlignment="Center"/>
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

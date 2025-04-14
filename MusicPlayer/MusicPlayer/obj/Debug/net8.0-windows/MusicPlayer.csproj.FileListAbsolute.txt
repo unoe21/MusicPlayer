@@ -74,3 +74,4 @@ C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPl
 C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\MusicPlayer.pdb
 C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\MusicPlayer.genruntimeconfig.cache
 C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\ref\MusicPlayer.dll
+C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\MusicPlayer.sourcelink.json

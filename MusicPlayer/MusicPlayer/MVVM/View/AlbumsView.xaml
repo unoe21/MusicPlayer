@@ -21,7 +21,7 @@
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="10" Width="200">
                                 <Grid Width="200" Height="200">
-                                    <!-- Használj Border-t a DropShadowEffect körül -->
+
                                     <Border Width="200" Height="200" BorderBrush="Transparent" BorderThickness="5" CornerRadius="20">
                                         <Border.Effect>
                                             <DropShadowEffect 

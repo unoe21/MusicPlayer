@@ -10,9 +10,9 @@ namespace MusicPlayer.MVVM.Model
 {
     public class Album
     {
-        public string Name { get; set; }               // Album név
-        public string Artist { get; set; }             // Előadó
+        public string Name { get; set; }              
+        public string Artist { get; set; }             
         public ObservableCollection<Track> Tracks { get; set; } = new();
-        public BitmapImage Cover { get; set; }      // Borítókép
+        public BitmapImage Cover { get; set; }      
     }
 }

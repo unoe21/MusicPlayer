@@ -10,7 +10,6 @@
         <StackPanel Grid.Column="1" Background="#091d38" Margin="40 58 40 0">
             <TextBlock Text="Playlists" Style="{StaticResource titleText}"/>
 
-            <!-- Gomb balra zárva -->
             <Grid Margin="20,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />

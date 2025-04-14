@@ -28,11 +28,10 @@ namespace MusicPlayer.MVVM.View
         public SongsView()
         {
             InitializeComponent();
-            this.DataContext = App.Current.MainWindow.DataContext;  // Feltevés, hogy a MainWindow a MainViewModel-t használja
+            this.DataContext = App.Current.MainWindow.DataContext;
 
         }
 
-        // Track kiválasztásának eseménykezelője
         private void Track_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (SongsListBox.SelectedItem != null)
@@ -45,10 +44,8 @@ namespace MusicPlayer.MVVM.View
                 if (viewModel != null)
                 {
                     
-                    // Az aktuális track-et beállítjuk
                     viewModel.CurrentTrack = selectedTrack;
 
-                    // Betöltjük az új track fájlt a mediaPlayer-be
                     viewModel.mediaPlayer.Open(new Uri(selectedTrack.FilePath));
 
                     viewModel.LoadCoverImage(selectedTrack.FilePath);
@@ -57,7 +54,6 @@ namespace MusicPlayer.MVVM.View
                     viewModel.Artist = tagFile.Tag.FirstPerformer ?? "Unknown Artist";
                     viewModel.Title = selectedTrack.Title;
 
-                    // Lejátszás indítása
                     viewModel.PlayPause();
                 }
             }

@@ -18,16 +18,14 @@
                     <DropShadowEffect/>
                 </Border.Effect>
 
-                <!-- A ListBox-ot a AllTracks gyűjteményhez kötjük -->
                 <ListBox x:Name="SongsListBox"
                          ItemsSource="{Binding Artists}" SelectionMode="Single"
                          Background="Transparent" Foreground="Transparent"
                          Margin="10 20 10 10"
                          Height="405"
                          BorderThickness="0"
-                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                         >
-                    <!-- Stílus a ListBoxItem-ekhez -->
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                    
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Foreground" Value="White"/>
@@ -38,8 +36,8 @@
                                 <Setter.Value>
                                     <ControlTemplate TargetType="ListBoxItem">
                                         <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="true">
+                                                Background="{TemplateBinding Background}"
+                                                SnapsToDevicePixels="true">
                                             <ContentPresenter />
                                         </Border>
                                         <ControlTemplate.Triggers>
@@ -65,16 +63,13 @@
                             <Grid HorizontalAlignment="Stretch" Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <!-- A cím bal oldali része -->
                                     <ColumnDefinition Width="Auto" />
-                                    <!-- Az idő jobbra igazítva -->
                                 </Grid.ColumnDefinitions>
 
-                                <!-- Cím a bal oldalon -->
                                 <TextBlock Text="{Binding}" 
-                                               FontSize="18" FontWeight="SemiBold"
-                                               Foreground="White" 
-                                               VerticalAlignment="Center" />
+                                           FontSize="18" FontWeight="SemiBold"
+                                           Foreground="White" 
+                                           VerticalAlignment="Center" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>

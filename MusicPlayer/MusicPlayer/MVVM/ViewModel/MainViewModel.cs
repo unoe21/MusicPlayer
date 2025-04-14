@@ -54,7 +54,7 @@ namespace MusicPlayer.MVVM.ViewModel
         }
 
 
-        //Albums
+        //Collections
         public ObservableCollection<Album> Albums { get; set; } = new ObservableCollection<Album>();
         public ObservableCollection<Track> AllTracks { get; set; } = new ObservableCollection<Track>();
         public ObservableCollection<Track> DailyAlbum { get; set; } = new ObservableCollection<Track>();
@@ -140,13 +140,13 @@ namespace MusicPlayer.MVVM.ViewModel
         }
         public void LoadAllTracks()
         {
-            AllTracks.Clear(); // Az előző trackek törlése
+            AllTracks.Clear();
 
             foreach (var album in Albums)
             {
                 foreach (var track in album.Tracks)
                 {
-                    AllTracks.Add(track); // Az összes album számát hozzáadjuk
+                    AllTracks.Add(track);
                 }
             }
         }
@@ -156,9 +156,9 @@ namespace MusicPlayer.MVVM.ViewModel
             if (Albums.Count != 0)
             {
                 Random random = new Random();
-                int randomIndex = random.Next(Albums.Count);  // Véletlenszerű index kiválasztása
+                int randomIndex = random.Next(Albums.Count);
 
-                Album daily = Albums[randomIndex]; // Visszaadjuk a véletlenszerűen kiválasztott albumot
+                Album daily = Albums[randomIndex];
                 DailyAlbum = daily.Tracks;
                 DailyArtist = daily.Artist;
                 DailyAlbumName = daily.Name;
@@ -235,9 +235,9 @@ namespace MusicPlayer.MVVM.ViewModel
 
 
 
-        public MediaPlayer mediaPlayer = new MediaPlayer(); // MediaPlayer példány a lejátszáshoz
+        public MediaPlayer mediaPlayer = new MediaPlayer();
+        private int _currentTrackIndex = -1;
         private Track _currentTrack;
-        private int _currentTrackIndex = -1; // Az aktuális szám indexe
         public Track CurrentTrack
         {
             get => _currentTrack;
@@ -310,10 +310,9 @@ namespace MusicPlayer.MVVM.ViewModel
             {
 
 
-                // Ha nincs fájl betöltve, akkor betöltjük az aktuális számot
                 if (mediaPlayer.Source == null)
                 {
-                    mediaPlayer.Open(new Uri(CurrentTrack.FilePath)); // Az aktuális track fájlja
+                    mediaPlayer.Open(new Uri(CurrentTrack.FilePath));
                 }
                 mediaPlayer.Play();
                 _isPlaying = true;
@@ -369,13 +368,13 @@ namespace MusicPlayer.MVVM.ViewModel
             set
             {
                 _coverImage = value;
-                OnPropertyChanged(nameof(CoverImage)); // PropertyChanged hívása
+                OnPropertyChanged(nameof(CoverImage));
             }
         }
         public void LoadCoverImage(string filePath)
         {
-            var tagFile = TagLib.File.Create(filePath); // Betöltjük a fájlt a TagLib segítségével
-            CoverImage = GetCoverImage(tagFile); // A CoverImage beállítása a kinyert borítóképpel
+            var tagFile = TagLib.File.Create(filePath);
+            CoverImage = GetCoverImage(tagFile);
         }
         private BitmapImage GetCoverImage(TagLib.File tagFile)
         {
