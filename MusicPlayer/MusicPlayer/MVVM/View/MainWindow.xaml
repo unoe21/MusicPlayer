@@ -93,66 +93,89 @@
 
             <ContentControl Grid.Column="1" Content="{Binding CurrentView}"/>
 
-            <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="#fc3c44" CornerRadius="40 0 40 0" Margin="40 0 0 0">
-                <StackPanel Orientation="Horizontal">
-                    <Ellipse Width="60" Height="60" Margin="30 0 0 0">
-                        <Ellipse.Fill>
-                            <ImageBrush ImageSource="{Binding CoverImage}"/>
-                        </Ellipse.Fill>
-                    </Ellipse>
+            <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="#fc3c44" CornerRadius="40 0 20 0" Margin="40 0 0 0">
+                <Grid Margin="10 0 30 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                    <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 30 0">
-                        <ScrollViewer Name="artistScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Width="100">
-                            <TextBlock x:Name="artist_name" Text="{Binding Artist}" Foreground="White" FontSize="22" FontWeight="Bold">
-                                <TextBlock.RenderTransform>
-                                    <TranslateTransform x:Name="artist_translateTransform" />
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                        </ScrollViewer>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal">
+                        <Ellipse Width="60" Height="60" Margin="20 0 0 0">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding CoverImage}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
 
-                        <ScrollViewer Name="musicScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled" Width="100">
-                            <TextBlock x:Name="music_name" Text="{Binding Title}" Foreground="White" FontSize="18" FontWeight="SemiBold">
-                                <TextBlock.RenderTransform>
-                                    <TranslateTransform x:Name="music_translateTransform" />
-                                </TextBlock.RenderTransform>
-                            </TextBlock>
-                        </ScrollViewer>
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 10 0" Width="120">
+                            <ScrollViewer Name="artistScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                                <TextBlock x:Name="artist_name" Text="{Binding Artist}" Foreground="White" FontSize="20" FontWeight="Bold" TextTrimming="CharacterEllipsis">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform x:Name="artist_translateTransform" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </ScrollViewer>
+
+                            <ScrollViewer Name="musicScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
+                                <TextBlock x:Name="music_name" Text="{Binding Title}" Foreground="White" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
+                                    <TextBlock.RenderTransform>
+                                        <TranslateTransform x:Name="music_translateTransform" />
+                                    </TextBlock.RenderTransform>
+                                </TextBlock>
+                            </ScrollViewer>
+                        </StackPanel>
                     </StackPanel>
 
-                    <Button Command="{Binding PreviousTrackCommand}" Style="{StaticResource playerButton}">
-                        <Icon:PackIconMaterial Kind="SkipPrevious" Style="{StaticResource playerButtonIcon}"/>
-                    </Button>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
 
-                    <Button Command="{Binding PlayPauseCommand}" Style="{StaticResource playerButton}">
-                        <Icon:PackIconMaterial x:Name="PlayPauseIcon" Kind="{Binding PlayPauseIconKind}" Style="{StaticResource playerButtonIcon}"/>
-                    </Button>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 3">
+                            <Button Command="{Binding PreviousTrackCommand}" Style="{StaticResource playerButton}" Width="45" Height="45">
+                                <Icon:PackIconMaterial Kind="SkipPrevious" Style="{StaticResource playerButtonIcon}" Width="22" Height="22"/>
+                            </Button>
 
-                    <Button Command="{Binding NextTrackCommand}" Style="{StaticResource playerButton}">
-                        <Icon:PackIconMaterial Kind="SkipNext" Style="{StaticResource playerButtonIcon}"/>
-                    </Button>
+                            <Button Command="{Binding PlayPauseCommand}" Style="{StaticResource playerButton}" Width="55" Height="55" Margin="20 0">
+                                <Icon:PackIconMaterial x:Name="PlayPauseIcon" Kind="{Binding PlayPauseIconKind}" Style="{StaticResource playerButtonIcon}" Width="28" Height="28"/>
+                            </Button>
 
-                    <Slider x:Name="ProgressSlider"
-                            Minimum="0"
-                            Maximum="{Binding CurrentTrackDurationSeconds}"
-                            Value="{Binding CurrentPositionSeconds, Mode=TwoWay}"
-                            PreviewMouseUp="ProgressSlider_PreviewMouseUp"
-                            PreviewMouseDown="ProgressSlider_PreviewMouseDown"
-                            Style="{DynamicResource SliderStyle1}"
-                            IsSelectionRangeEnabled="True" VerticalAlignment="Center" 
-                            Width="350"
-                            SelectionEnd="{Binding ElementName=ProgressSlider, Path=Value}"/>
+                            <Button Command="{Binding NextTrackCommand}" Style="{StaticResource playerButton}" Width="45" Height="45">
+                                <Icon:PackIconMaterial Kind="SkipNext" Style="{StaticResource playerButtonIcon}" Width="22" Height="22"/>
+                            </Button>
+                        </StackPanel>
 
-                    <Grid Margin="20 0 30 0" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <TextBlock Text="{Binding CurrentTimeString}" 
+                                       Foreground="White" FontSize="12" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Margin="0 0 10 0" Width="35" TextAlignment="Right"/>
 
-                        <ToggleButton x:Name="VolumeButton" Cursor="Hand" Background="White" BorderThickness="0">
+                            <Slider x:Name="ProgressSlider"
+                                    Minimum="0"
+                                    Maximum="{Binding CurrentTrackDurationSeconds}"
+                                    Value="{Binding CurrentPositionSeconds, Mode=TwoWay}"
+                                    PreviewMouseUp="ProgressSlider_PreviewMouseUp"
+                                    PreviewMouseDown="ProgressSlider_PreviewMouseDown"
+                                    Style="{DynamicResource SliderStyle1}"
+                                    IsSelectionRangeEnabled="True" VerticalAlignment="Center" 
+                                    Width="300"
+                                    IsMoveToPointEnabled="True" 
+                                    SelectionEnd="{Binding ElementName=ProgressSlider, Path=Value}"/>
+
+                            <TextBlock Text="{Binding TotalTimeString}" 
+                                       Foreground="White" FontSize="12" FontWeight="SemiBold"
+                                       VerticalAlignment="Center" Margin="10 0 0 0" Width="35"/>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <Grid Grid.Column="2" VerticalAlignment="Center">
+                        <ToggleButton x:Name="VolumeButton" Cursor="Hand" Background="White" Width="40" Height="40" BorderThickness="0">
                             <ToggleButton.Template>
                                 <ControlTemplate TargetType="ToggleButton">
-                                    <Grid Background="Transparent">
+                                    <Border Background="{TemplateBinding Background}" CornerRadius="20">
                                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Grid>
+                                    </Border>
                                 </ControlTemplate>
                             </ToggleButton.Template>
-                            <Icon:PackIconMaterial Kind="VolumeHigh" Style="{StaticResource playerButtonIcon}" Foreground="White"/>
+                            <Icon:PackIconMaterial Kind="VolumeHigh" Foreground="#fc3c44" Width="20" Height="20"/>
                         </ToggleButton>
 
                         <Popup IsOpen="{Binding IsChecked, ElementName=VolumeButton}" 
@@ -229,10 +252,8 @@
                         </Popup>
                     </Grid>
 
-                </StackPanel>
-
+                </Grid>
             </Border>
-
         </Grid>
     </Border>
 </Window>

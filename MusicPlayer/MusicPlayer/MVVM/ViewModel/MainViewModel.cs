@@ -80,6 +80,12 @@ namespace MusicPlayer.MVVM.ViewModel
         [NotifyPropertyChangedFor(nameof(PlayPauseIconKind))]
         private bool _isPlaying;
 
+        [ObservableProperty]
+        private string _currentTimeString = "0:00";
+
+        [ObservableProperty]
+        private string _totalTimeString = "0:00";
+
         public string PlayPauseIconKind => IsPlaying ? "Pause" : "Play";
 
         [ObservableProperty]
@@ -169,7 +175,9 @@ namespace MusicPlayer.MVVM.ViewModel
                 DailyAlbum = daily.Tracks;
                 DailyArtist = daily.Artist;
                 DailyAlbumName = daily.Name;
-                SelectedAlbum = daily;
+
+                // KIVETTÜK: SelectedAlbum = daily;
+                // Így a napi ajánló betöltése már nem fog átirányítani a Dalok nézetre!
             }
         }
 
@@ -425,10 +433,21 @@ namespace MusicPlayer.MVVM.ViewModel
 
         partial void OnCurrentPositionSecondsChanged(double value)
         {
+            // Átalakítjuk a másodperceket perc:másodperc (m:ss) formátumra
+            TimeSpan time = TimeSpan.FromSeconds(value);
+            CurrentTimeString = time.ToString(@"m\:ss");
+
             if (IsUserDraggingSlider)
             {
                 _audioPlayerService.SetPosition(value);
             }
+        }
+
+        // Ez figyeli, ha új szám indul, és kiírja a teljes hosszát
+        partial void OnCurrentTrackDurationSecondsChanged(double value)
+        {
+            TimeSpan time = TimeSpan.FromSeconds(value);
+            TotalTimeString = time.ToString(@"m\:ss");
         }
 
         // ÚJ: Ha húzod a hangerő csúszkát, ez szól a motornak!
@@ -480,6 +499,35 @@ namespace MusicPlayer.MVVM.ViewModel
 
             // 4. Átnavigálunk a Songs (Dalok) nézetre
             CurrentView = new SongsView();
+        }
+
+        private bool _wasPlayingBeforeDrag;
+
+        public void UserStartedDragging()
+        {
+            IsUserDraggingSlider = true;
+            _wasPlayingBeforeDrag = IsPlaying; // Megjegyezzük, hogy ment-e a zene
+
+            if (IsPlaying)
+            {
+                _audioPlayerService.Pause(); // Elnémítjuk, amíg húzod
+                _timer.Stop();
+            }
+        }
+
+        public void UserFinishedDragging()
+        {
+            IsUserDraggingSlider = false;
+
+            // Beállítjuk a zenét oda, ahol elengedted az egeret
+            _audioPlayerService.SetPosition(CurrentPositionSeconds);
+
+            // Ha szólt a zene a kattintás előtt, akkor most folytatjuk!
+            if (_wasPlayingBeforeDrag)
+            {
+                _audioPlayerService.Resume();
+                _timer.Start();
+            }
         }
     }
 }

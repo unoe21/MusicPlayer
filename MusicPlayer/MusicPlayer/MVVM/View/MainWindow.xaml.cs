@@ -65,5 +65,6 @@ namespace MusicPlayer.MVVM.View
                 vm.SeekTo(vm.CurrentPositionSeconds);
             }
         }
+
     }
 }
