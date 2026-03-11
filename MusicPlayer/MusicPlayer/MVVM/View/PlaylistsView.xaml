@@ -4,71 +4,180 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MusicPlayer.MVVM.View"
+             xmlns:Icon="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="700" d:DesignWidth="800">
     <Grid>
         <StackPanel Grid.Column="1" Background="#091d38" Margin="40 58 40 0">
-            <TextBlock Text="Playlists" Style="{StaticResource titleText}"/>
 
-            <Grid Margin="20,20,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+            <Grid Margin="10">
+                <TextBlock Text="Playlists" Style="{StaticResource titleText}" HorizontalAlignment="Left" VerticalAlignment="Center"/>
 
-                <Border Grid.Column="0" CornerRadius="20" VerticalAlignment="Top">
-                    <Grid Width="200" Height="200" Background="Transparent">
-                        <Grid.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{Binding AddPlaylistCommand}"/>
-                        </Grid.InputBindings>
-
-                        <Border Width="200" Height="200" BorderBrush="Transparent" BorderThickness="5" CornerRadius="20">
-                            <Border.Effect>
-                                <DropShadowEffect 
-                                    BlurRadius="20"
-                                    Color="black"
-                                    Opacity="0.8"/>
-                            </Border.Effect>
-
-                            <Grid Background="#fc3c44" Width="170" Height="170" Cursor="Hand">
-                                <Grid.Clip>
-                                    <RectangleGeometry Rect="0,0,170,170" RadiusX="20" RadiusY="20"/>
-                                </Grid.Clip>
-                                <TextBlock Text="+" 
-                                           Foreground="White" 
-                                           FontSize="72" 
-                                           HorizontalAlignment="Center" 
-                                           VerticalAlignment="Center" 
-                                           FontWeight="Bold"/>
-                            </Grid>
-                        </Border>
-                    </Grid>
-                </Border>
-
-                <ScrollViewer Grid.Column="1" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="20,0,0,0" Height="400">
-                    <ItemsControl ItemsSource="{Binding Playlists}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapPanel Orientation="Horizontal"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Width="170" Height="170" Background="#2c3e50" CornerRadius="20" Margin="0,0,20,20">
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="15" Color="Black" Opacity="0.5"/>
-                                    </Border.Effect>
-                                    <TextBlock Text="{Binding}" 
-                                               Foreground="White" FontSize="20" FontWeight="Bold" 
-                                               HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                               TextWrapping="Wrap" TextAlignment="Center" Margin="10"/>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-
+                <Button Command="{Binding StartCreatePlaylistCommand}" HorizontalAlignment="Right" VerticalAlignment="Center"
+                        Background="#fc3c44" Foreground="White" BorderThickness="0" Padding="15 10" Cursor="Hand" FontSize="16" FontWeight="SemiBold">
+                    <Button.Resources>
+                        <Style TargetType="Border">
+                            <Setter Property="CornerRadius" Value="20"/>
+                        </Style>
+                    </Button.Resources>
+                    <TextBlock Text="+ Új Playlist"/>
+                </Button>
             </Grid>
+
+            <Border Margin="0 20 0 0">
+
+                <ListBox ItemsSource="{Binding Playlists}" 
+                         SelectedItem="{Binding SelectedPlaylist, Mode=TwoWay}"
+                         SelectionMode="Single"
+                         Background="Transparent" Foreground="Transparent"
+                         Margin="0 10 0 10" Height="420" BorderThickness="0"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden">
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Padding" Value="10"/>
+                            <Setter Property="Margin" Value="0 0 0 10"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="Bd" Background="{TemplateBinding Background}" SnapsToDevicePixels="true" CornerRadius="15">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#1a2c47"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#253a5e"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Border Width="55" Height="55" CornerRadius="12" Background="#fc3c44">
+                                    <Icon:PackIconMaterial Kind="MusicNote" Width="30" Height="30" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+
+                                <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="20 0 0 0">
+                                    <TextBlock Text="{Binding Name}" FontSize="18" FontWeight="Bold" Foreground="White"/>
+                                    <TextBlock Text="{Binding Tracks.Count, StringFormat='{}{0} dal'}" FontSize="14" Foreground="LightGray" Margin="0 4 0 0"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
         </StackPanel>
+
+        <Border Panel.ZIndex="100" Background="#99000000">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCreatingPlaylist}" Value="True">
+                            <Setter Property="Visibility" Value="Visible"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
+
+            <Border Background="#091d38" CornerRadius="25" Width="550" Height="550" BorderBrush="#fc3c44" BorderThickness="2" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Border.Effect>
+                    <DropShadowEffect BlurRadius="40" Color="Black" Opacity="0.8"/>
+                </Border.Effect>
+
+                <Grid Margin="30">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Új Lejátszási Lista" Foreground="White" FontSize="24" FontWeight="Bold" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+
+                    <Grid Grid.Row="1" Margin="0 0 0 20">
+                        <TextBox Text="{Binding NewPlaylistName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                                 Background="Transparent" Foreground="White" FontSize="18" BorderBrush="#fc3c44" BorderThickness="0 0 0 2" Padding="5" Panel.ZIndex="2"
+                                 CaretBrush="White"/>
+
+                        <TextBlock Text="Adj meg egy nevet..." Foreground="Gray" FontSize="18" Margin="5" IsHitTestVisible="False" VerticalAlignment="Center">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding NewPlaylistName.Length}" Value="0">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding NewPlaylistName}" Value="{x:Null}">
+                                            <Setter Property="Visibility" Value="Visible"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+
+                    <Border Grid.Row="2" Background="#1a2c47" CornerRadius="10" Margin="0 0 0 20" Padding="10">
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding AvailableTracksForPlaylist}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <CheckBox IsChecked="{Binding IsSelected}" Margin="5" Cursor="Hand">
+                                            <StackPanel Orientation="Horizontal" Margin="10 0 0 0">
+                                                <TextBlock Text="{Binding Track.Title}" Foreground="White" FontSize="16" FontWeight="SemiBold"/>
+                                                <TextBlock Text=" - " Foreground="LightGray" FontSize="14"/>
+                                                <TextBlock Text="{Binding Track.Artist}" Foreground="LightGray" FontSize="14"/>
+                                            </StackPanel>
+                                        </CheckBox>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Border>
+
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="20"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Content="Mégsem" Command="{Binding CancelCreatePlaylistCommand}" Grid.Column="0"
+                                Background="Transparent" Foreground="White" BorderBrush="White" BorderThickness="1" Padding="10" Cursor="Hand" FontSize="16" FontWeight="SemiBold">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+
+                        <Button Content="Mentés" Command="{Binding SavePlaylistCommand}" Grid.Column="2"
+                                Background="#fc3c44" Foreground="White" BorderThickness="0" Padding="10" Cursor="Hand" FontSize="16" FontWeight="SemiBold">
+                            <Button.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="15"/>
+                                </Style>
+                            </Button.Resources>
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Border>
+        </Border>
     </Grid>
 </UserControl>

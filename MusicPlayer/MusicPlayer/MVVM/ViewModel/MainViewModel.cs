@@ -41,8 +41,6 @@ namespace MusicPlayer.MVVM.ViewModel
         [ObservableProperty]
         private ObservableCollection<string> _artists = new();
 
-        [ObservableProperty]
-        private ObservableCollection<string> _playlists = new();
 
         // ÚJ VÁLTOZÓ: Hangerő (Alapértelmezetten 50%-on indul)
         [ObservableProperty]
@@ -94,6 +92,29 @@ namespace MusicPlayer.MVVM.ViewModel
         [ObservableProperty]
         private double _currentTrackDurationSeconds;
 
+        // --- LEJÁTSZÁSI LISTÁK ÁLLAPOTAI ---
+
+        // Lecseréljük a régi string alapú listát a valódi objektumokat tartalmazó listára
+        [ObservableProperty]
+        private ObservableCollection<Playlist> _playlists = new();
+
+        [ObservableProperty]
+        private Playlist _selectedPlaylist;
+
+        // --- ÚJ LEJÁTSZÁSI LISTA LÉTREHOZÁSÁNAK ÁLLAPOTAI ---
+
+        // Ez a boolean vezérli majd a View-ban a felugró ablak (overlay) láthatóságát
+        [ObservableProperty]
+        private bool _isCreatingPlaylist;
+
+        // Az új lista neve, amit a TextBox-ba ír a felhasználó
+        [ObservableProperty]
+        private string _newPlaylistName;
+
+        // A felugró ablakban megjelenő, kipipálható dalok listája
+        [ObservableProperty]
+        private ObservableCollection<SelectableTrack> _availableTracksForPlaylist = new();
+
         [ObservableProperty]
         private bool _isUserDraggingSlider;
 
@@ -116,6 +137,78 @@ namespace MusicPlayer.MVVM.ViewModel
         private string _dailyAlbumName;
 
         private int _currentTrackIndex = -1;
+
+        // --- LEJÁTSZÁSI LISTA PARANCSOK ÉS LOGIKA ---
+
+        [RelayCommand]
+        private void StartCreatePlaylist()
+        {
+            // 1. Alaphelyzetbe állítjuk a beviteli mezőt
+            NewPlaylistName = string.Empty;
+
+            // 2. Kiürítjük az előző kijelöléseket
+            AvailableTracksForPlaylist.Clear();
+
+            // 3. Betöltjük az összes dalt a memóriából (AllTracks), alapértelmezetten "nincs kijelölve" állapottal
+            foreach (var track in AllTracks)
+            {
+                AvailableTracksForPlaylist.Add(new SelectableTrack { Track = track, IsSelected = false });
+            }
+
+            // 4. Jelezzük a View-nak, hogy mutassa meg a felugró ablakot
+            IsCreatingPlaylist = true;
+        }
+
+        [RelayCommand]
+        private void SavePlaylist()
+        {
+            // Clean Code elv: Guard Clause (Védő záradék) - Ha üres a név, ne csináljunk semmit
+            if (string.IsNullOrWhiteSpace(NewPlaylistName)) return;
+
+            // Csak azokat a dalokat válogatjuk ki (LINQ segítségével), ahol a checkbox be van pipálva
+            var selectedTracks = AvailableTracksForPlaylist
+                .Where(t => t.IsSelected)
+                .Select(t => t.Track);
+
+            var newPlaylist = new Playlist
+            {
+                Name = NewPlaylistName,
+                Tracks = new ObservableCollection<Track>(selectedTracks)
+            };
+
+            // Hozzáadjuk a fő listához
+            Playlists.Add(newPlaylist);
+
+            // Bezárjuk a felugró ablakot
+            IsCreatingPlaylist = false;
+        }
+
+        [RelayCommand]
+        private void CancelCreatePlaylist()
+        {
+            // Egyszerűen csak jelezzük a View-nak, hogy rejtse el az ablakot
+            IsCreatingPlaylist = false;
+        }
+
+        // Ez a CommunityToolkit MVVM konvenciója: automatikusan lefut, amikor a SelectedPlaylist értéke megváltozik
+        partial void OnSelectedPlaylistChanged(Playlist value)
+        {
+            // Guard Clause
+            if (value == null) return;
+
+            // Beállítjuk a felső címsort
+            SongsTitle = $"{value.Name} - Playlist";
+
+            // Frissítjük a nézet számára kiajánlott dalok listáját
+            AllTracks.Clear();
+            foreach (var track in value.Tracks)
+            {
+                AllTracks.Add(track);
+            }
+
+            // Átnavigálunk a Dalok nézetre
+            CurrentView = new SongsView();
+        }
 
         // --- 3. KONSTRUKTOR ---
 
@@ -289,6 +382,7 @@ namespace MusicPlayer.MVVM.ViewModel
                     LoadAllTracks(); // <--- ÚJ: Visszatölti az összes dalt a memóriából
                     SelectedArtist = null; // <--- ÚJ: Töröljük a korábbi előadó kijelölést
                     SelectedAlbum = null;
+                    SelectedPlaylist = null;
                     SongsTitle = "Songs";
                     CurrentView = new SongsView();
                     break;
@@ -424,12 +518,6 @@ namespace MusicPlayer.MVVM.ViewModel
             }
         }
 
-        [RelayCommand]
-        private void AddPlaylist()
-        {
-            int newNumber = _playlists.Count + 1;
-            _playlists.Add($"Új lista {newNumber}");
-        }
 
         partial void OnCurrentPositionSecondsChanged(double value)
         {
