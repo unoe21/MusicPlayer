@@ -55,6 +55,8 @@ namespace MusicPlayer.MVVM.ViewModel
         private Album _selectedAlbum;
 
         private Track _currentTrack;
+        [ObservableProperty]
+        private string _songsTitle = "Songs";
         public Track CurrentTrack
         {
             get => _currentTrack;
@@ -254,6 +256,8 @@ namespace MusicPlayer.MVVM.ViewModel
             return null;
         }
 
+
+
         // --- 5. NAVIGÁCIÓ ---
 
         [RelayCommand]
@@ -274,6 +278,10 @@ namespace MusicPlayer.MVVM.ViewModel
                     CurrentView = new AlbumsView();
                     break;
                 case "Songs":
+                    LoadAllTracks(); // <--- ÚJ: Visszatölti az összes dalt a memóriából
+                    SelectedArtist = null; // <--- ÚJ: Töröljük a korábbi előadó kijelölést
+                    SelectedAlbum = null;
+                    SongsTitle = "Songs";
                     CurrentView = new SongsView();
                     break;
             }
@@ -283,6 +291,8 @@ namespace MusicPlayer.MVVM.ViewModel
         {
             NavigateTo(value);
         }
+
+
 
         // --- 6. LEJÁTSZÁSI LOGIKA ÉS PARANCSOK ---
 
@@ -425,6 +435,51 @@ namespace MusicPlayer.MVVM.ViewModel
         partial void OnVolumeChanged(double value)
         {
             _audioPlayerService.SetVolume(value / 100.0);
+        }
+
+
+        // Ez automatikusan lefut, amikor az Artists nézetben rákattintasz egy előadóra
+        partial void OnSelectedArtistChanged(string value)
+        {
+            if (string.IsNullOrEmpty(value)) return;
+
+            SongsTitle = $"{value} - Songs";
+            // 1. Kitöröljük a dalok listáját
+            AllTracks.Clear();
+
+            // 2. Megkeressük a kiválasztott előadó albumait, és csak az ő számait töltjük be
+            var artistAlbums = Albums.Where(a => a.Artist == value);
+            foreach (var album in artistAlbums)
+            {
+                foreach (var track in album.Tracks)
+                {
+                    AllTracks.Add(track);
+                }
+            }
+
+            // 3. Átnavigálunk a Songs (Dalok) nézetre, ami most már csak ezt a szűrt listát fogja mutatni!
+            CurrentView = new SongsView();
+        }
+
+        // Ez automatikusan lefut, amikor az Albums nézetben rákattintasz egy albumra
+        partial void OnSelectedAlbumChanged(Album value)
+        {
+            if (value == null) return;
+
+            // 1. Átírjuk a címet az album nevére!
+            SongsTitle = $"{value.Name} - Songs";
+
+            // 2. Kitöröljük a dalok listáját
+            AllTracks.Clear();
+
+            // 3. Csak a kiválasztott album dalait töltjük be
+            foreach (var track in value.Tracks)
+            {
+                AllTracks.Add(track);
+            }
+
+            // 4. Átnavigálunk a Songs (Dalok) nézetre
+            CurrentView = new SongsView();
         }
     }
 }

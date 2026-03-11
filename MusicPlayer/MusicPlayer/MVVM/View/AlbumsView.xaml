@@ -12,13 +12,32 @@
 
             <ScrollViewer Height="400" VerticalScrollBarVisibility="Hidden">
 
-                <ItemsControl ItemsSource="{Binding Albums}">
-                    <ItemsControl.ItemsPanel>
+                <ListBox ItemsSource="{Binding Albums}" 
+                         SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
+                         Background="Transparent" 
+                         BorderThickness="0"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                    <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" />
                         </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                    <ItemsControl.ItemTemplate>
+                    </ListBox.ItemsPanel>
+
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <ContentPresenter/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+
+                    <ListBox.ItemTemplate>
                         <DataTemplate>
                             <StackPanel Orientation="Vertical" Margin="10" Width="200">
                                 <Grid Width="200" Height="200">
@@ -51,8 +70,8 @@
 
                             </StackPanel>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </StackPanel>
     </Grid>

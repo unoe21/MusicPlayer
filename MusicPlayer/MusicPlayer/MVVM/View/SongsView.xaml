@@ -10,8 +10,7 @@
 
     <Grid>
         <StackPanel Grid.Column="1" Background="#091d38" Margin="40 58 40 0">
-            <TextBlock Text="Songs" Style="{StaticResource titleText}"/>
-
+            <TextBlock Text="{Binding SongsTitle}" Style="{StaticResource titleText}" Margin="10"/>
             <Border CornerRadius="20" Margin="0 20 0 0">
                 <Border.Background>
                     <SolidColorBrush Color="#fc3c44" Opacity="0.48"/>
