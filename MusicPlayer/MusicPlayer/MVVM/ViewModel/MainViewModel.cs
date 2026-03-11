@@ -1,147 +1,152 @@
-﻿using MusicPlayer.MVVM.Model;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MusicPlayer.MVVM.Model;
+using MusicPlayer.MVVM.Services;
+using MusicPlayer.MVVM.View;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media.Imaging;
 using System.Windows;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using MusicPlayer.MVVM.View;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows.Input;
-using Microsoft.Win32;
-using MahApps.Metro.IconPacks;
-using MusicPlayer.MVVM.ViewModel;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-
 
 namespace MusicPlayer.MVVM.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public partial class MainViewModel : ObservableObject
     {
-        public MainViewModel() { }  
-        public MainViewModel(IOpenFileDialogService fileDialogService)
-        {
+        // --- 1. MEZŐK ÉS SZOLGÁLTATÁSOK ---
 
-            InitializeCommands();
+        private readonly IMediaLibraryService _mediaLibraryService;
+        private readonly IAudioPlayerService _audioPlayerService;
+        private readonly IOpenFileDialogService _fileDialogService;
+        private DispatcherTimer _timer = new DispatcherTimer();
+
+        // --- 2. PROPERTY-K (TULAJDONSÁGOK) ---
+
+        [ObservableProperty]
+        private object _currentView;
+
+        [ObservableProperty]
+        private ObservableCollection<Album> _albums = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Track> _allTracks = new();
+
+        [ObservableProperty]
+        private ObservableCollection<Track> _dailyAlbum = new();
+
+        [ObservableProperty]
+        private ObservableCollection<string> _artists = new();
+
+        [ObservableProperty]
+        private ObservableCollection<string> _playlists = new();
+
+        // ÚJ VÁLTOZÓ: Hangerő (Alapértelmezetten 50%-on indul)
+        [ObservableProperty]
+        private double _volume = 50;
+
+        [ObservableProperty]
+        private string _selectedArtist;
+
+        [ObservableProperty]
+        private Album _selectedAlbum;
+
+        private Track _currentTrack;
+        public Track CurrentTrack
+        {
+            get => _currentTrack;
+            set
+            {
+                if (SetProperty(ref _currentTrack, value))
+                {
+                    if (value != null)
+                    {
+                        if (SelectedAlbum != null && SelectedAlbum.Tracks.Contains(value))
+                        {
+                            _currentTrackIndex = SelectedAlbum.Tracks.IndexOf(value);
+                        }
+                        PlaySelectedTrack(value);
+                    }
+                }
+            }
+        }
+
+        [ObservableProperty]
+        [NotifyPropertyChangedFor(nameof(PlayPauseIconKind))]
+        private bool _isPlaying;
+
+        public string PlayPauseIconKind => IsPlaying ? "Pause" : "Play";
+
+        [ObservableProperty]
+        private double _currentPositionSeconds;
+
+        [ObservableProperty]
+        private double _currentTrackDurationSeconds;
+
+        [ObservableProperty]
+        private bool _isUserDraggingSlider;
+
+        [ObservableProperty]
+        private string _artist;
+
+        [ObservableProperty]
+        private string _title;
+
+        [ObservableProperty]
+        private BitmapImage _coverImage;
+
+        [ObservableProperty]
+        private string _selectedMenu;
+
+        [ObservableProperty]
+        private string _dailyArtist;
+
+        [ObservableProperty]
+        private string _dailyAlbumName;
+
+        private int _currentTrackIndex = -1;
+
+        // --- 3. KONSTRUKTOR ---
+
+        public MainViewModel(
+            IMediaLibraryService mediaLibraryService,
+            IAudioPlayerService audioPlayerService,
+            IOpenFileDialogService fileDialogService)
+        {
+            _mediaLibraryService = mediaLibraryService;
+            _audioPlayerService = audioPlayerService;
             _fileDialogService = fileDialogService;
 
-
-            LoadAlbums();
-            LoadAllTracks();
-            LoadDaily();
-
-
-            mediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+            _audioPlayerService.PlaybackEnded += OnPlaybackEnded;
 
             _timer.Interval = TimeSpan.FromMilliseconds(500);
             _timer.Tick += Timer_Tick;
-            _timer.Start();
+
+            _ = InitializeLibraryAsync();
+
+            NavigateTo("Home");
         }
 
-        private void InitializeCommands()
+        // --- 4. INICIALIZÁLÁS ÉS ADATBETÖLTÉS ---
+
+        private async Task InitializeLibraryAsync()
         {
-            PlayPauseCommand = new RelayCommand(PlayPause);
-            NextTrackCommand = new RelayCommand(NextTrack);
-            PreviousTrackCommand = new RelayCommand(PlayPreviousTrack);
-            OpenFileCommand = new RelayCommand(OpenFile);
+            string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
+
+            var loadedAlbums = await _mediaLibraryService.LoadAlbumsAsync(musicFolder);
+
+            Albums = new ObservableCollection<Album>(loadedAlbums);
+            LoadAllTracks();
+            LoadDaily();
+            LoadArtists();
         }
 
-
-        //Collections
-        public ObservableCollection<Album> Albums { get; set; } = new ObservableCollection<Album>();
-        public ObservableCollection<Track> AllTracks { get; set; } = new ObservableCollection<Track>();
-        public ObservableCollection<Track> DailyAlbum { get; set; } = new ObservableCollection<Track>();
-        public ObservableCollection<BitmapImage> AlbumCovers =>
-            new ObservableCollection<BitmapImage>(Albums.Select(a => a.Cover));
-        public ObservableCollection<string> Artists =>
-            new ObservableCollection<string>(Albums.Select(a => a.Artist));
-
-        private string _dailyArtist;
-        public string DailyArtist
-        {
-            get => _dailyArtist;
-            set
-            {
-                if (_dailyArtist != value)
-                {
-                    _dailyArtist = value;
-                    OnPropertyChanged(nameof(DailyArtist));
-                }
-            }
-        }
-        public string DailyAlbumName { get; set; }
-        private Album _selectedAlbum;
-        public Album SelectedAlbum
-        {
-            get => _selectedAlbum;
-            set
-            {
-                _selectedAlbum = value;
-                OnPropertyChanged();
-            }
-        }
-
-
-        //C:Users/Your user name/Music
-        string musicFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic);
-        //Loading Albums
-        public void LoadAlbums()
-        {
-            if (!Directory.Exists(musicFolder))
-            {
-                MessageBox.Show($"A {musicFolder} mappa nem található.");
-                return;
-            }
-
-            Albums.Clear();
-
-            var albumDirs = Directory.GetDirectories(musicFolder,"*");
-
-            if (albumDirs.Length == 0)
-            {
-                MessageBox.Show("Nincsenek albumok a mappában.");
-                return;
-            }
-
-            foreach (var albumDir in albumDirs)
-            {
-                var mp3Files = Directory.GetFiles(albumDir, "*.mp3");
-                if (mp3Files.Length == 0) continue;
-
-                var firstFile = TagLib.File.Create(mp3Files[0]);
-                var album = new Album
-                {
-                    Name = firstFile.Tag.Album ?? Path.GetFileName(albumDir),
-                    Artist = firstFile.Tag.FirstPerformer ?? "Unknown Artist",
-                    Cover = GetCoverImage(firstFile)
-                };
-
-                foreach (var file in mp3Files)
-                {
-                    var tagFile = TagLib.File.Create(file);
-                    album.Tracks.Add(new Track
-                    {
-                        Title = tagFile.Tag.Title ?? Path.GetFileNameWithoutExtension(file),
-                        FilePath = file,
-                        Duration = tagFile.Properties.Duration
-                    });
-                }
-
-                Albums.Add(album);
-            }
-
-        }
-        public void LoadAllTracks()
+        private void LoadAllTracks()
         {
             AllTracks.Clear();
-
             foreach (var album in Albums)
             {
                 foreach (var track in album.Tracks)
@@ -150,9 +155,9 @@ namespace MusicPlayer.MVVM.ViewModel
                 }
             }
         }
-        public void LoadDaily()
-        {
 
+        private void LoadDaily()
+        {
             if (Albums.Count != 0)
             {
                 Random random = new Random();
@@ -164,329 +169,94 @@ namespace MusicPlayer.MVVM.ViewModel
                 DailyAlbumName = daily.Name;
                 SelectedAlbum = daily;
             }
-
         }
 
-        //Loading Files
-        private readonly IOpenFileDialogService _fileDialogService;
-        public ICommand OpenFileCommand { get; private set; }
-        private string currentFileName;
-
-        private string _artist;
-        private string _title;
-
-        public string Artist
+        private void LoadArtists()
         {
-            get => _artist;
-            set
+            Artists.Clear();
+
+            var uniqueArtists = Albums
+                .Select(a => a.Artist)
+                .Where(artist => !string.IsNullOrEmpty(artist))
+                .Distinct()
+                .OrderBy(artist => artist)
+                .ToList();
+
+            foreach (var artist in uniqueArtists)
             {
-                if (_artist != value)
-                {
-                    _artist = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                if (_title != value)
-                {
-                    _title = value;
-                    OnPropertyChanged();
-                }
+                Artists.Add(artist);
             }
         }
 
-        private void OpenFile()
-        {
-            OpenFileDialog fileDialog = new OpenFileDialog
-            {
-                Multiselect = false,
-                DefaultExt = ".mp3"
-            };
-
-            bool? dialogOk = fileDialog.ShowDialog();
-            if (dialogOk == true)
-            {
-                mediaPlayer.Close();
-                var filename = fileDialog.FileName;
-                mediaPlayer.Open(new Uri(filename));
-
-                var tagFile = TagLib.File.Create(filename);
-                var artist = tagFile.Tag.FirstPerformer ?? "Unknown Artist";
-                var title = tagFile.Tag.Title ?? Path.GetFileNameWithoutExtension(filename);
-
-                // Beállítjuk a megfelelő adatokat a ViewModel-ben
-                Artist = artist;
-                Title = title;
-                CoverImage = GetCoverImage(tagFile); // Borítókép beállítása
-
-                // Lejátszás
-                mediaPlayer.Play();
-
-                OnPropertyChanged(nameof(CurrentTrack));
-                OnPropertyChanged(nameof(CoverImage));
-            }
-        }
-
-
-
-
-        public MediaPlayer mediaPlayer = new MediaPlayer();
-        private int _currentTrackIndex = -1;
-        private Track _currentTrack;
-        public Track CurrentTrack
-        {
-            get => _currentTrack;
-            set
-            {
-                if (_currentTrack != value)
-                {
-                    _currentTrack = value;
-                    OnPropertyChanged();
-                }
-            }
-        }
-        private bool _isPlaying;
-        public bool IsPlaying
-        {
-            get => _isPlaying;
-            set
-            {
-                _isPlaying = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(PlayPauseIconKind));
-            }
-        }
-        public string PlayPauseIconKind => IsPlaying ? "Pause" : "Play";
-
-
-        // Commands
-        private ICommand _playPauseCommand;
-        public ICommand PlayPauseCommand
-        {
-            get
-            {
-                if (_playPauseCommand == null)
-                {
-                    _playPauseCommand = new RelayCommand(PlayPause);
-                }
-                return _playPauseCommand;
-            }
-            private set
-            {
-            }
-        }
-        private ICommand _nextTrackCommand;
-        public ICommand NextTrackCommand
-        {
-            get
-            {
-                if (_nextTrackCommand == null)
-                {
-                    _nextTrackCommand = new RelayCommand(NextTrack);
-                }
-                return _nextTrackCommand;
-            }
-            private set
-            {
-            }
-        }
-        public ICommand PreviousTrackCommand { get; private set; }
-        public void PlayPause()
-        {
-            if (_isPlaying)
-            {
-                mediaPlayer.Pause();
-                _isPlaying = false;
-                _timer.Stop();
-                OnPropertyChanged(nameof(IsPlaying));
-                OnPropertyChanged(nameof(PlayPauseIconKind));
-            }
-            else
-            {
-
-
-                if (mediaPlayer.Source == null)
-                {
-                    mediaPlayer.Open(new Uri(CurrentTrack.FilePath));
-                }
-                mediaPlayer.Play();
-                _isPlaying = true;
-                _timer.Start();
-                OnPropertyChanged(nameof(IsPlaying));
-                OnPropertyChanged(nameof(PlayPauseIconKind));
-            }
-        }
-        public void NextTrack()
-        {
-            if (_currentTrackIndex + 1 < SelectedAlbum.Tracks.Count)
-            {
-                _currentTrackIndex++;
-                CurrentTrack = SelectedAlbum.Tracks[_currentTrackIndex];
-
-                mediaPlayer.Open(new Uri(CurrentTrack.FilePath));
-
-                var tagFile = TagLib.File.Create(CurrentTrack.FilePath);
-                Artist = tagFile.Tag.FirstPerformer ?? "Unknown Artist";
-                Title = CurrentTrack.Title;
-                CoverImage = GetCoverImage(tagFile);
-
-                mediaPlayer.Play();
-                _isPlaying = true;
-                OnPropertyChanged(nameof(CurrentTrack));
-            }
-        }
-        public void PlayPreviousTrack()
-        {
-            if (_currentTrackIndex > 0)
-            {
-                _currentTrackIndex--;
-                CurrentTrack = SelectedAlbum.Tracks[_currentTrackIndex];
-                mediaPlayer.Open(new Uri(CurrentTrack.FilePath));
-
-                var tagFile = TagLib.File.Create(CurrentTrack.FilePath);
-                Artist = tagFile.Tag.FirstPerformer ?? "Unknown Artist";
-                Title = CurrentTrack.Title;
-                CoverImage = GetCoverImage(tagFile);
-
-                mediaPlayer.Play();
-
-                _isPlaying = true;
-                OnPropertyChanged(nameof(CurrentTrack));
-            }
-        }
-
-        //Image creator
-        private BitmapImage _coverImage;
-        public BitmapImage CoverImage
-        {
-            get { return _coverImage; }
-            set
-            {
-                _coverImage = value;
-                OnPropertyChanged(nameof(CoverImage));
-            }
-        }
         public void LoadCoverImage(string filePath)
         {
             var tagFile = TagLib.File.Create(filePath);
             CoverImage = GetCoverImage(tagFile);
         }
+
         private BitmapImage GetCoverImage(TagLib.File tagFile)
         {
-            if (tagFile.Tag.Pictures == null || tagFile.Tag.Pictures.Length == 0)
-                return null;
+            if (tagFile.Tag.Pictures != null && tagFile.Tag.Pictures.Length > 0)
+            {
+                try
+                {
+                    var pic = tagFile.Tag.Pictures[0];
+                    byte[] imageData = pic.Data.Data;
+                    BitmapImage image = null;
+
+                    Application.Current.Dispatcher.Invoke(() =>
+                    {
+                        using (var mem = new MemoryStream(imageData))
+                        {
+                            image = new BitmapImage();
+                            image.BeginInit();
+                            image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                            image.CacheOption = BitmapCacheOption.OnLoad;
+                            image.StreamSource = mem;
+                            image.EndInit();
+                            image.Freeze();
+                        }
+                    });
+                    return image;
+                }
+                catch { }
+            }
 
             try
             {
-                var pic = tagFile.Tag.Pictures[0];
-                using var ms = new MemoryStream(pic.Data.Data);
-
-                var image = new BitmapImage();
-                image.BeginInit();
-                image.CacheOption = BitmapCacheOption.OnLoad;
-                image.StreamSource = ms;
-                image.EndInit();
-                image.Freeze(); // Fontos UI-hoz
-
-                return image;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Borítókép betöltési hiba: {ex.Message}");
-                return null;
-            }
-        }
-
-        //Silder
-        private DispatcherTimer _timer = new DispatcherTimer();
-
-        private double _currentPositionSeconds;
-        public double CurrentPositionSeconds
-        {
-            get => _currentPositionSeconds;
-            set
-            {
-                if (Math.Abs(value - _currentPositionSeconds) > 0.1) // Csak ha tényleg változott
+                string directoryPath = Path.GetDirectoryName(tagFile.Name);
+                if (!string.IsNullOrEmpty(directoryPath))
                 {
-                    _currentPositionSeconds = value;
-                    mediaPlayer.Position = TimeSpan.FromSeconds(value); // Csak akkor állítsuk be, ha felhasználó állítja
-                    OnPropertyChanged();
+                    string[] possibleNames = { "folder.jpg", "cover.jpg", "folder.png", "cover.png", "AlbumArtSmall.jpg" };
+
+                    foreach (var name in possibleNames)
+                    {
+                        string imagePath = Path.Combine(directoryPath, name);
+                        if (File.Exists(imagePath))
+                        {
+                            BitmapImage folderImage = null;
+                            Application.Current.Dispatcher.Invoke(() =>
+                            {
+                                folderImage = new BitmapImage();
+                                folderImage.BeginInit();
+                                folderImage.CacheOption = BitmapCacheOption.OnLoad;
+                                folderImage.UriSource = new Uri(imagePath);
+                                folderImage.EndInit();
+                                folderImage.Freeze();
+                            });
+                            return folderImage;
+                        }
+                    }
                 }
             }
+            catch { }
+
+            return null;
         }
 
-        private double _currentTrackDurationSeconds;
-        public double CurrentTrackDurationSeconds
-        {
-            get => _currentTrackDurationSeconds;
-            set
-            {
-                _currentTrackDurationSeconds = value;
-                OnPropertyChanged();
-            }
-        }
+        // --- 5. NAVIGÁCIÓ ---
 
-        private bool _isUserDraggingSlider;
-        public bool IsUserDraggingSlider
-        {
-            get => _isUserDraggingSlider;
-            set
-            {
-                _isUserDraggingSlider = value;
-                OnPropertyChanged();
-            }
-        }
-        private void Timer_Tick(object sender, EventArgs e)
-        {
-            // Csak akkor frissítsük a pozíciót, ha nem húzzuk a Slider-t
-            if (!_isUserDraggingSlider)
-            {
-                if (mediaPlayer.Source != null && mediaPlayer.NaturalDuration.HasTimeSpan)
-                {
-                    CurrentPositionSeconds = mediaPlayer.Position.TotalSeconds;
-                }
-            }
-        }
-        private void MediaPlayer_MediaOpened(object sender, EventArgs e)
-        {
-            if (mediaPlayer.NaturalDuration.HasTimeSpan)
-            {
-                CurrentTrackDurationSeconds = mediaPlayer.NaturalDuration.TimeSpan.TotalSeconds;
-                CurrentPositionSeconds = 0; // Itt indul a slider az elején
-                mediaPlayer.Position = TimeSpan.Zero;
-            }
-        }
-
-        //View Navigator
-        private UserControl _currentView;
-        public UserControl CurrentView
-        {
-            get => _currentView;
-            set
-            {
-                _currentView = value;
-                OnPropertyChanged(nameof(CurrentView));
-            }
-        }
-        private string _selectedMenu;
-        public string SelectedMenu
-        {
-            get => _selectedMenu;
-            set
-            {
-                if (_selectedMenu != value)
-                {
-                    _selectedMenu = value;
-                    OnPropertyChanged(nameof(SelectedMenu));
-                    NavigateTo(_selectedMenu); // Navigálás az új menüre
-                }
-            }
-        }
+        [RelayCommand]
         public void NavigateTo(string viewName)
         {
             switch (viewName)
@@ -506,20 +276,123 @@ namespace MusicPlayer.MVVM.ViewModel
                 case "Songs":
                     CurrentView = new SongsView();
                     break;
-
-
             }
         }
-        public void SeekTo(double seconds)
+
+        partial void OnSelectedMenuChanged(string value)
         {
-            mediaPlayer.Position = TimeSpan.FromSeconds(seconds);
+            NavigateTo(value);
         }
 
-        // INotifyPropertyChanged implementáció
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string name = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        // --- 6. LEJÁTSZÁSI LOGIKA ÉS PARANCSOK ---
+
+        [RelayCommand]
+        private void PlayPause()
+        {
+            if (_audioPlayerService.IsPlaying)
+            {
+                _audioPlayerService.Pause();
+                IsPlaying = false;
+                _timer.Stop();
+            }
+            else
+            {
+                if (CurrentTrack != null)
+                {
+                    if (_audioPlayerService.CurrentPosition == 0)
+                    {
+                        PlaySelectedTrack(CurrentTrack);
+                    }
+                    else
+                    {
+                        _audioPlayerService.Resume();
+                        IsPlaying = true;
+                        _timer.Start();
+                    }
+                }
+            }
+        }
+
+        [RelayCommand]
+        private void NextTrack()
+        {
+            if (SelectedAlbum != null && _currentTrackIndex + 1 < SelectedAlbum.Tracks.Count)
+            {
+                _currentTrackIndex++;
+                CurrentTrack = SelectedAlbum.Tracks[_currentTrackIndex];
+            }
+        }
+
+        [RelayCommand]
+        private void PreviousTrack()
+        {
+            if (SelectedAlbum != null && _currentTrackIndex > 0)
+            {
+                _currentTrackIndex--;
+                CurrentTrack = SelectedAlbum.Tracks[_currentTrackIndex];
+            }
+        }
+
+        private void PlaySelectedTrack(Track track)
+        {
+            _audioPlayerService.Play(track.FilePath);
+
+            // ÚJ: Indításkor beállítjuk a kezdeti hangerőt is a motornak!
+            _audioPlayerService.SetVolume(Volume / 100.0);
+
+            var tagFile = TagLib.File.Create(track.FilePath);
+            Artist = tagFile.Tag.FirstPerformer ?? "Unknown Artist";
+            Title = track.Title;
+            CoverImage = GetCoverImage(tagFile);
+
+            CurrentTrackDurationSeconds = _audioPlayerService.TotalDuration;
+
+            IsPlaying = true;
+            _timer.Start();
+        }
+
+        private void OnPlaybackEnded()
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                NextTrack();
+            });
+        }
+
+        // --- 7. SLIDER ÉS HANGERŐ KEZELÉSE ---
+
+        public void SeekTo(double seconds)
+        {
+            _audioPlayerService.SetPosition(seconds);
+        }
+
+        private void Timer_Tick(object sender, EventArgs e)
+        {
+            if (!IsUserDraggingSlider && _audioPlayerService.IsPlaying)
+            {
+                CurrentPositionSeconds = _audioPlayerService.CurrentPosition;
+            }
+        }
+
+        [RelayCommand]
+        private void AddPlaylist()
+        {
+            int newNumber = _playlists.Count + 1;
+            _playlists.Add($"Új lista {newNumber}");
+        }
+
+        partial void OnCurrentPositionSecondsChanged(double value)
+        {
+            if (IsUserDraggingSlider)
+            {
+                _audioPlayerService.SetPosition(value);
+            }
+        }
+
+        // ÚJ: Ha húzod a hangerő csúszkát, ez szól a motornak!
+        partial void OnVolumeChanged(double value)
+        {
+            _audioPlayerService.SetVolume(value / 100.0);
+        }
     }
-
-
 }

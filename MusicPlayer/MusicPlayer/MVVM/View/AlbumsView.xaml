@@ -11,7 +11,8 @@
             <TextBlock Text="Albums" Style="{StaticResource titleText}" Margin="10"/>
 
             <ScrollViewer Height="400" VerticalScrollBarVisibility="Hidden">
-                <ItemsControl ItemsSource="{Binding AlbumCovers}">
+
+                <ItemsControl ItemsSource="{Binding Albums}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
                             <WrapPanel Orientation="Horizontal" />
@@ -30,13 +31,24 @@
                                                 Opacity="0.8"/>
                                         </Border.Effect>
 
-                                        <Image Width="170" Height="170" Source="{Binding}">
+                                        <Image Width="170" Height="170" Source="{Binding CoverImage}" Stretch="UniformToFill">
                                             <Image.Clip>
                                                 <RectangleGeometry Rect="0,0,170,170" RadiusX="20" RadiusY="20"/>
                                             </Image.Clip>
                                         </Image>
                                     </Border>
                                 </Grid>
+
+                                <TextBlock Text="{Binding Name}" 
+                                           Foreground="White" FontSize="16" FontWeight="SemiBold" 
+                                           HorizontalAlignment="Center" TextAlignment="Center"
+                                           Margin="0 10 0 0" TextTrimming="CharacterEllipsis"/>
+
+                                <TextBlock Text="{Binding Artist}" 
+                                           Foreground="LightGray" FontSize="14" 
+                                           HorizontalAlignment="Center" TextAlignment="Center"
+                                           Margin="0 3 0 0" TextTrimming="CharacterEllipsis"/>
+
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

@@ -18,14 +18,16 @@
                     <DropShadowEffect/>
                 </Border.Effect>
 
-                <ListBox x:Name="SongsListBox"
-                         ItemsSource="{Binding Artists}" SelectionMode="Single"
+                <ListBox x:Name="ArtistsListBox"
+                         ItemsSource="{Binding Artists}" 
+                         SelectedItem="{Binding SelectedArtist, Mode=TwoWay}"
+                         SelectionMode="Single"
                          Background="Transparent" Foreground="Transparent"
                          Margin="10 20 10 10"
                          Height="405"
                          BorderThickness="0"
                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                    
+
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Foreground" Value="White"/>
@@ -63,7 +65,6 @@
                             <Grid HorizontalAlignment="Stretch" Margin="10">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Text="{Binding}" 
@@ -74,10 +75,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-
-
-
-
 
             </Border>
         </StackPanel>

@@ -1,68 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MahApps.Metro.IconPacks;
-using MusicPlayer.MVVM.Model;
-using MusicPlayer.MVVM.ViewModel;
-
+﻿using System.Windows.Controls;
 
 namespace MusicPlayer.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for SongsView.xaml
-    /// </summary>
     public partial class SongsView : UserControl
     {
         public SongsView()
         {
             InitializeComponent();
-            this.DataContext = App.Current.MainWindow.DataContext;
-
         }
 
+        // Ezt a metódust kereste a XAML!
         private void Track_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (SongsListBox.SelectedItem != null)
-            {
-                var selectedTrack = (Track)SongsListBox.SelectedItem;
-
-                Debug.WriteLine($"Selected track: {selectedTrack.Title}");
-
-                var viewModel = this.DataContext as MainViewModel;
-                if (viewModel != null)
-                {
-                    
-                    viewModel.CurrentTrack = selectedTrack;
-
-                    viewModel.mediaPlayer.Open(new Uri(selectedTrack.FilePath));
-
-                    viewModel.LoadCoverImage(selectedTrack.FilePath);
-
-                    var tagFile = TagLib.File.Create(selectedTrack.FilePath);
-                    viewModel.Artist = tagFile.Tag.FirstPerformer ?? "Unknown Artist";
-                    viewModel.Title = selectedTrack.Title;
-
-                    viewModel.PlayPause();
-                }
-            }
-            else
-            {
-                Debug.WriteLine("No track selected");
-            }
+            // Egyelőre üresen hagyjuk, hogy leforduljon a kód.
         }
-
-
     }
 }

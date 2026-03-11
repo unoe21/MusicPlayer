@@ -1,106 +1,68 @@
-﻿using MahApps.Metro.IconPacks;
-using Microsoft.Win32;
-using MusicPlayer.MVVM.View;
-using MusicPlayer.MVVM.ViewModel;
-using System.Collections.ObjectModel;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
-namespace MusicPlayer
+namespace MusicPlayer.MVVM.View
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
-
-            var dialogService = new OpenFileDialogService();
-            var viewModel = new MainViewModel(dialogService);
-            DataContext = viewModel;
-
-            viewModel.LoadAlbums();
-            viewModel.LoadAllTracks();
-
-
         }
 
-
-        MediaPlayer mediaPlayer = new MediaPlayer();
-        string filename;
-
-        private bool isPlaying = false;
-
-
-
+        // --- EZEKET KERESTE A XAML FORDÍTÓ, EMIATT NEM MŰKÖDÖTT SEMMI! ---
 
         private void Border_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if(e.ChangedButton == MouseButton.Left)
+            // Ez teszi lehetővé, hogy a felső sávnál fogva mozgasd az ablakot
+            if (e.ChangedButton == MouseButton.Left)
             {
                 this.DragMove();
             }
         }
+
         private void Ellipse_MouseDown_Red(object sender, MouseButtonEventArgs e)
         {
-            if(e.ChangedButton == MouseButton.Left)
-            {
-                this.Close();
-            }
+            // Piros gomb: Bezárás
+            Application.Current.Shutdown();
         }
+
         private void Ellipse_MouseDown_Yellow(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-            {
-                this.WindowState = WindowState.Normal;
-            }
+            // Sárga gomb: Tálcára rakás
+            this.WindowState = WindowState.Minimized;
         }
+
         private void Ellipse_MouseDown_Green(object sender, MouseButtonEventArgs e)
         {
-            if (e.ChangedButton == MouseButton.Left)
-            {
+            // Zöld gomb: Teljes képernyő
+            if (this.WindowState == WindowState.Normal)
                 this.WindowState = WindowState.Maximized;
-            }
+            else
+                this.WindowState = WindowState.Normal;
         }
+
         private void MenuButton_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is MainViewModel viewModel && sender is Button button)
-            {
-                string viewName = button.Name;
-                if (!string.IsNullOrEmpty(viewName))
-                {
-                    viewModel.NavigateTo(viewName);  // a kiválasztott nézet betöltése
-                }
-            }
+            // Ezt már a ViewModel intézi (Commandokkal), így ez maradhat teljesen üresen!
         }
+
         private void ProgressSlider_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            // Amikor elkezdjük húzni, állítsuk be, hogy a felhasználó húzza a Slider-t
-            var viewModel = DataContext as MainViewModel;
-            if (viewModel != null)
+            // Ha a ViewModel be van kötve, jelezzük neki, hogy a felhasználó elkezdte húzni a csúszkát
+            if (DataContext is ViewModel.MainViewModel vm)
             {
-                viewModel.IsUserDraggingSlider = true;
+                vm.IsUserDraggingSlider = true;
             }
         }
+
         private void ProgressSlider_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            // Amikor elengedjük, állítsuk vissza, hogy már nem húzunk
-            var viewModel = DataContext as MainViewModel;
-            if (viewModel != null)
+            // Elengedtük a csúszkát, tekerjünk oda!
+            if (DataContext is ViewModel.MainViewModel vm)
             {
-                viewModel.IsUserDraggingSlider = false;
-                viewModel.SeekTo(viewModel.CurrentPositionSeconds);  // A pozíció frissítése, miután elengedtük
+                vm.IsUserDraggingSlider = false;
+                vm.SeekTo(vm.CurrentPositionSeconds);
             }
         }
     }

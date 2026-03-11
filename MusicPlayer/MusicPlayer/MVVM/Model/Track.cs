@@ -1,63 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using System;
 
 namespace MusicPlayer.MVVM.Model
 {
-    public class Track : INotifyPropertyChanged
+    // A 'partial' kulcsszó kötelező, mert a keretrendszer a háttérben kiegészíti ezt az osztályt.
+    public partial class Track : ObservableObject
     {
-        private string title;
-        private string filePath;
-        private TimeSpan duration;
+        [ObservableProperty]
+        private string _title;
 
-        public string Title
-        {
-            get { return title; }
-            set
-            {
-                if (title != value)
-                {
-                    title = value;
-                    OnPropertyChanged(nameof(Title));
-                }
-            }
-        }
+        [ObservableProperty]
+        private string _filePath;
 
-        public string FilePath
-        {
-            get { return filePath; }
-            set
-            {
-                if (filePath != value)
-                {
-                    filePath = value;
-                    OnPropertyChanged(nameof(FilePath));
-                }
-            }
-        }
-
-        public TimeSpan Duration
-        {
-            get { return duration; }
-            set
-            {
-                if (duration != value)
-                {
-                    duration = value;
-                    OnPropertyChanged(nameof(Duration));
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        [ObservableProperty]
+        private TimeSpan _duration;
     }
 }

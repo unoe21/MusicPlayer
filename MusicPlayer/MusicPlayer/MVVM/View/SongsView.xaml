@@ -6,8 +6,7 @@
              xmlns:local="clr-namespace:MusicPlayer.MVVM.View"
              xmlns:vm="clr-namespace:MusicPlayer.MVVM.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800"
-             >
+             d:DesignHeight="450" d:DesignWidth="800">
 
     <Grid>
         <StackPanel Grid.Column="1" Background="#091d38" Margin="40 58 40 0">
@@ -21,16 +20,16 @@
                     <DropShadowEffect/>
                 </Border.Effect>
 
-                <!-- A ListBox-ot a AllTracks gyűjteményhez kötve -->
                 <ListBox x:Name="SongsListBox"
-                         ItemsSource="{Binding AllTracks}" SelectionMode="Single"
-                         SelectionChanged="Track_SelectionChanged"
+                         ItemsSource="{Binding AllTracks}" 
+                         SelectedItem="{Binding CurrentTrack, Mode=TwoWay}"
+                         SelectionMode="Single"
                          Background="Transparent" Foreground="Transparent"
                          Margin="10 20 10 10"
                          Height="415"
                          BorderThickness="0"
                          ScrollViewer.VerticalScrollBarVisibility="Hidden">
-                    
+
                     <ListBox.ItemContainerStyle>
                         <Style TargetType="ListBoxItem">
                             <Setter Property="Foreground" Value="White"/>
@@ -86,10 +85,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-
-
-
-
 
             </Border>
         </StackPanel>

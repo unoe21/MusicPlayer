@@ -46,15 +46,16 @@
                     </TextBlock>
 
                     <ListBox x:Name="SongsListBox"
-                             ItemsSource="{Binding DailyAlbum}" SelectionMode="Single"
-                             SelectionChanged="Track_SelectionChanged"
+                             ItemsSource="{Binding DailyAlbum}" 
+                             SelectedItem="{Binding CurrentTrack, Mode=TwoWay}"
+                             SelectionMode="Single"
                              Background="Transparent" Foreground="Transparent"
                              Margin="10 10 10 10"
                              Height="350"
                              BorderThickness="0"
                              ScrollViewer.VerticalScrollBarVisibility="Hidden"
                              Grid.Row="1">
-                        
+
                         <ListBox.ItemContainerStyle>
                             <Style TargetType="ListBoxItem">
                                 <Setter Property="Foreground" Value="White"/>
