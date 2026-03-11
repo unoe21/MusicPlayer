@@ -375,6 +375,38 @@ namespace MusicPlayer.MVVM.ViewModel
         }
 
         [RelayCommand]
+        private void OpenFile()
+        {
+            // 1. Megnyitjuk a tallózó ablakot
+            string filePath = _fileDialogService.OpenFile();
+
+            // 2. Ha a felhasználó kiválasztott egy fájlt (nem nyomott Mégsem-et)
+            if (!string.IsNullOrEmpty(filePath))
+            {
+                // Csinálunk egy "virtuális" zeneszámot a betallózott fájlból
+                var newTrack = new Track
+                {
+                    FilePath = filePath,
+                    Title = Path.GetFileNameWithoutExtension(filePath) // Alapból a fájlnév lesz a címe
+                };
+
+                // Megpróbáljuk kiolvasni a valódi címét a fájl metaadataiból (TagLib)
+                try
+                {
+                    var tagFile = TagLib.File.Create(filePath);
+                    if (!string.IsNullOrEmpty(tagFile.Tag.Title))
+                    {
+                        newTrack.Title = tagFile.Tag.Title;
+                    }
+                }
+                catch { } // Ha nincs benne metaadat, akkor marad a fájlnév
+
+                // 3. Átadjuk a kész számot a lejátszó logikánknak!
+                PlaySelectedTrack(newTrack);
+            }
+        }
+
+        [RelayCommand]
         private void AddPlaylist()
         {
             int newNumber = _playlists.Count + 1;

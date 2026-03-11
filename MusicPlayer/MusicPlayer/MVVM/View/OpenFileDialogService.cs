@@ -19,8 +19,10 @@ namespace MusicPlayer.MVVM.View
             var dialog = new OpenFileDialog
             {
                 Multiselect = false,
-                DefaultExt = ".mp3",
-                Filter = "MP3 files (*.mp3)|*.mp3"
+                Title = "Zene kiválasztása",
+                // JAVÍTVA: Nincs '|' a legvégén!
+                Filter = "Audio fájlok (*.mp3, *.flac, *.wav)|*.mp3;*.flac;*.wav",
+                FilterIndex = 1
             };
 
             bool? result = dialog.ShowDialog();
