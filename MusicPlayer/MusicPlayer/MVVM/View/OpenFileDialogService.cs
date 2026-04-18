@@ -1,31 +1,36 @@
 ﻿using Microsoft.Win32;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MusicPlayer.MVVM.View
+namespace MusicPlayer.MVVM.Services
 {
     public interface IOpenFileDialogService
     {
-        string OpenFile();
+        string? OpenFile();
     }
 
-    class OpenFileDialogService : IOpenFileDialogService
+    /// <summary>
+    /// Windows-specific implementation of the file dialog service.
+    /// Uses the standard Microsoft.Win32.OpenFileDialog to interact with the OS.
+    /// </summary>
+    public class OpenFileDialogService : IOpenFileDialogService
     {
-        public string OpenFile()
+        /// <summary>
+        /// Displays an Open File Dialog filtered for supported audio formats.
+        /// </summary>
+        /// <returns>The path of the selected file, or null if the user cancelled.</returns>
+        public string? OpenFile()
         {
             var dialog = new OpenFileDialog
             {
                 Multiselect = false,
-                Title = "Zene kiválasztása",
-                // JAVÍTVA: Nincs '|' a legvégén!
-                Filter = "Audio fájlok (*.mp3, *.flac, *.wav)|*.mp3;*.flac;*.wav",
+                Title = "Select Music File",
+                // A zenelejátszó által támogatott formátumok szűrése
+                Filter = "Audio Files (*.mp3;*.flac;*.wav;*.m4a)|*.mp3;*.flac;*.wav;*.m4a|All Files (*.*)|*.*",
                 FilterIndex = 1
             };
 
+            // A ShowDialog() true értéket ad vissza, ha a felhasználó a "Megnyitás" gombra kattint
             bool? result = dialog.ShowDialog();
+
             if (result == true)
             {
                 return dialog.FileName;

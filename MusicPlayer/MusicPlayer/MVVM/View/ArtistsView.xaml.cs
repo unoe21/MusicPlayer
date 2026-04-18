@@ -1,22 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows.Controls;
 
 namespace MusicPlayer.MVVM.View
 {
     /// <summary>
-    /// Interaction logic for Artists.xaml
+    /// Interaction logic for ArtistsView.xaml.
+    /// In accordance with the MVVM pattern, this code-behind file contains no business logic.
+    /// Navigation and data management are handled exclusively by the MainViewModel.
     /// </summary>
     public partial class ArtistsView : UserControl
     {

@@ -4,39 +4,39 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MusicPlayer.MVVM.View"
-             xmlns:vm="clr-namespace:MusicPlayer.MVVM.ViewModel"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <StackPanel Grid.Column="1" Background="#091d38" Margin="40 58 40 0">
-            <TextBlock Text="Home" Style="{StaticResource titleText}"/>
+             d:DesignHeight="600" d:DesignWidth="800">
 
+    <Grid Background="#091d38" Margin="40 58 40 40">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-            <Border CornerRadius="20" Margin="0 20 0 0">
-                <Border.Background>
-                    <SolidColorBrush Color="#fc3c44" Opacity="0.5"/>
-                </Border.Background>
-                <Border.Effect>
-                    <DropShadowEffect/>
-                </Border.Effect>
+        <TextBlock Grid.Row="0" Text="Home" Style="{StaticResource titleText}" Margin="0 0 0 20"/>
 
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
+        <Border Grid.Row="1" CornerRadius="20" ClipToBounds="True">
+            <Border.Background>
+                <SolidColorBrush Color="#fc3c44" Opacity="0.5"/>
+            </Border.Background>
+            <Border.Effect>
+                <DropShadowEffect BlurRadius="20" ShadowDepth="5" Opacity="0.4"/>
+            </Border.Effect>
 
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="25 20 25 10">
                     <TextBlock Text="Daily Artist's Album"
-                               FontSize="24" FontWeight="Bold"
-                               Foreground="White"
-                               Margin="20 10"
-                               HorizontalAlignment="Left"
-                               Grid.Row="0"/>
-                    <TextBlock FontSize="20" FontWeight="Bold"
-                               Foreground="White"
-                               Margin="20 45 0 0"
-                               HorizontalAlignment="Left"
-                               Grid.Row="0">
+                               FontSize="28" FontWeight="Bold"
+                               Foreground="White" Opacity="0.9"/>
+
+                    <TextBlock FontSize="20" FontWeight="SemiBold"
+                               Foreground="White" Margin="0 5 0 0"
+                               TextTrimming="CharacterEllipsis">
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} - {1}">
                                 <Binding Path="DailyArtist" />
@@ -44,77 +44,77 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
+                </StackPanel>
 
-                    <ListBox x:Name="SongsListBox"
-                             ItemsSource="{Binding DailyAlbum}" 
-                             SelectedItem="{Binding CurrentTrack, Mode=TwoWay}"
-                             SelectionMode="Single"
-                             Background="Transparent" Foreground="Transparent"
-                             Margin="10 10 10 10"
-                             Height="350"
-                             BorderThickness="0"
-                             ScrollViewer.VerticalScrollBarVisibility="Hidden"
-                             Grid.Row="1">
+                <ListBox Grid.Row="1"
+                         x:Name="SongsListBox"
+                         ItemsSource="{Binding DailyAlbum}" 
+                         SelectedItem="{Binding CurrentTrack, Mode=TwoWay}"
+                         SelectionMode="Single"
+                         Background="Transparent" 
+                         BorderThickness="0"
+                         Margin="15 0 15 15"
+                         ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem">
-                                <Setter Property="Foreground" Value="White"/>
-                                <Setter Property="Background" Value="Transparent"/>
-                                <Setter Property="Padding" Value="5"/>
-                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                                <Setter Property="Template">
-                                    <Setter.Value>
-                                        <ControlTemplate TargetType="ListBoxItem">
-                                            <Border x:Name="Bd"
-                                                    Background="{TemplateBinding Background}"
-                                                    SnapsToDevicePixels="true">
-                                                <ContentPresenter />
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter TargetName="Bd" Property="Background" Value="#66091d38"/>
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </Trigger>
-                                                <Trigger Property="IsSelected" Value="True">
-                                                    <Setter TargetName="Bd" Property="Background" Value="#AA091d38"/>
-                                                    <Setter Property="Foreground" Value="White"/>
-                                                </Trigger>
-                                                <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="Foreground" Value="Gray"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Setter.Value>
-                                </Setter>
-                            </Style>
-                        </ListBox.ItemContainerStyle>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Foreground" Value="White"/>
+                            <Setter Property="Background" Value="Transparent"/>
+                            <Setter Property="Padding" Value="10 8"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="ListBoxItem">
+                                        <Border x:Name="Bd"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="10"
+                                                Margin="0 2"
+                                                SnapsToDevicePixels="true">
+                                            <ContentPresenter />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#33FFFFFF"/>
+                                            </Trigger>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="Bd" Property="Background" Value="#66000000"/>
+                                                <Setter Property="FontWeight" Value="Bold"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
 
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Grid HorizontalAlignment="Stretch" Margin="10">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="Auto" />
-                                    </Grid.ColumnDefinitions>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                                    <TextBlock Text="{Binding Title}" 
-                                               FontSize="18" FontWeight="SemiBold"
-                                               Foreground="White" 
-                                               VerticalAlignment="Center" />
+                                <TextBlock Text="{Binding Title}" 
+                                           FontSize="16"
+                                           Foreground="White" 
+                                           VerticalAlignment="Center"
+                                           TextTrimming="CharacterEllipsis"/>
 
-                                    <TextBlock Text="{Binding Duration, StringFormat={}{0:mm\\:ss}}" 
-                                               Grid.Column="1"
-                                               FontSize="18" FontWeight="SemiBold"
-                                               Foreground="White" 
-                                               HorizontalAlignment="Right" 
-                                               VerticalAlignment="Center"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Grid>
-            </Border>
-        </StackPanel>
-
+                                <TextBlock Text="{Binding Duration, StringFormat={}{0:mm\\:ss}}" 
+                                           Grid.Column="1"
+                                           FontSize="16"
+                                           Foreground="White" 
+                                           VerticalAlignment="Center"
+                                           Margin="20 0 5 0"
+                                           Opacity="0.8"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

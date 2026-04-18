@@ -5,74 +5,78 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MusicPlayer.MVVM.View"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <StackPanel Grid.Column="1" Background="#091d38" Margin="40 58 40 0">
-            <TextBlock Text="Albums" Style="{StaticResource titleText}" Margin="10"/>
+             d:DesignHeight="700" d:DesignWidth="800">
 
-            <ScrollViewer Height="400" VerticalScrollBarVisibility="Hidden">
+    <Grid Background="#091d38" Margin="40 58 40 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                <ListBox ItemsSource="{Binding Albums}" 
-                         SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
-                         Background="Transparent" 
-                         BorderThickness="0"
-                         ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+        <TextBlock Grid.Row="0" Text="Albums" Style="{StaticResource titleText}" Margin="10 10 10 20"/>
 
-                    <ListBox.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <WrapPanel Orientation="Horizontal" />
-                        </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+        <ListBox Grid.Row="1" 
+                 ItemsSource="{Binding Albums}" 
+                 SelectedItem="{Binding SelectedAlbum, Mode=TwoWay}"
+                 Background="Transparent" 
+                 BorderThickness="0"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden">
 
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="ListBoxItem">
-                            <Setter Property="Cursor" Value="Hand"/>
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="ListBoxItem">
-                                        <ContentPresenter/>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel Orientation="Horizontal" HorizontalAlignment="Left"/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
 
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Vertical" Margin="10" Width="200">
-                                <Grid Width="200" Height="200">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Margin" Value="5"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Bd" Background="{TemplateBinding Background}" CornerRadius="15">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#1a2c47"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
 
-                                    <Border Width="200" Height="200" BorderBrush="Transparent" BorderThickness="5" CornerRadius="20">
-                                        <Border.Effect>
-                                            <DropShadowEffect 
-                                                BlurRadius="20"
-                                                Color="black"
-                                                Opacity="0.8"/>
-                                        </Border.Effect>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="10" Width="180">
 
-                                        <Image Width="170" Height="170" Source="{Binding CoverImage}" Stretch="UniformToFill">
-                                            <Image.Clip>
-                                                <RectangleGeometry Rect="0,0,170,170" RadiusX="20" RadiusY="20"/>
-                                            </Image.Clip>
-                                        </Image>
-                                    </Border>
-                                </Grid>
+                        <Border Width="170" Height="170" CornerRadius="20" Margin="0 0 0 15">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="20" Color="Black" Opacity="0.6" ShadowDepth="5"/>
+                            </Border.Effect>
+                            <Border.Background>
+                                <ImageBrush ImageSource="{Binding CoverImage}" Stretch="UniformToFill"/>
+                            </Border.Background>
+                        </Border>
 
-                                <TextBlock Text="{Binding Name}" 
-                                           Foreground="White" FontSize="16" FontWeight="SemiBold" 
-                                           HorizontalAlignment="Center" TextAlignment="Center"
-                                           Margin="0 10 0 0" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Name}" 
+                                   Foreground="White" FontSize="16" FontWeight="SemiBold" 
+                                   HorizontalAlignment="Center" TextAlignment="Center"
+                                   TextTrimming="CharacterEllipsis" ToolTip="{Binding Name}"/>
 
-                                <TextBlock Text="{Binding Artist}" 
-                                           Foreground="LightGray" FontSize="14" 
-                                           HorizontalAlignment="Center" TextAlignment="Center"
-                                           Margin="0 3 0 0" TextTrimming="CharacterEllipsis"/>
+                        <TextBlock Text="{Binding Artist}" 
+                                   Foreground="LightGray" FontSize="14" 
+                                   HorizontalAlignment="Center" TextAlignment="Center"
+                                   Margin="0 5 0 0" TextTrimming="CharacterEllipsis" ToolTip="{Binding Artist}"/>
 
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ScrollViewer>
-        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </UserControl>

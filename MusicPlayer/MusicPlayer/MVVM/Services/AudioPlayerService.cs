@@ -1,44 +1,56 @@
-﻿using NAudio.Wave;
-using System;
+﻿using System;
+using NAudio.Wave;
 
 namespace MusicPlayer.MVVM.Services
 {
-    public class AudioPlayerService : IAudioPlayerService
+    /// <summary>
+    /// Implementation of the audio playback engine using the NAudio library.
+    /// Utilizes MediaFoundationReader to support a wide variety of modern audio codecs (MP3, M4A, WAV, FLAC natively on Windows).
+    /// </summary>
+    public class AudioPlayerService : IAudioPlayerService, IDisposable
     {
-        private WaveOutEvent _outputDevice;
-        private MediaFoundationReader _audioFile;
-        private float _currentVolume = 0.5f; // <--- ÚJ: Eltároljuk a hangerőt, alapértelmezetten 50%
+        private WaveOutEvent? _outputDevice;
+        private MediaFoundationReader? _audioFile;
 
-        public event Action PlaybackEnded;
+        private float _currentVolume = 0.5f;
+        private bool _isDisposed;
 
+        /// <inheritdoc />
+        public event Action? PlaybackEnded;
+
+        /// <inheritdoc />
         public bool IsPlaying => _outputDevice?.PlaybackState == PlaybackState.Playing;
 
+        /// <inheritdoc />
         public double CurrentPosition => _audioFile?.CurrentTime.TotalSeconds ?? 0;
 
+        /// <inheritdoc />
         public double TotalDuration => _audioFile?.TotalTime.TotalSeconds ?? 0;
 
+        /// <inheritdoc />
         public void Play(string filePath)
         {
-            CleanUp();
+            DisposeCurrentMedia();
 
-            // A MediaFoundationReader a modern Windows beépített kodekjeit használja,
-            // így alapból viszi az mp3, m4a, wav, és a Windows 10/11-en a FLAC fájlokat is!
             _audioFile = new MediaFoundationReader(filePath);
-            _outputDevice = new WaveOutEvent();
 
-            // ÚJ: Átadjuk az elmentett hangerőt az új lejátszónak!
-            _outputDevice.Volume = _currentVolume;
+            _outputDevice = new WaveOutEvent
+            {
+                Volume = _currentVolume
+            };
 
             _outputDevice.Init(_audioFile);
             _outputDevice.PlaybackStopped += OnPlaybackStopped;
             _outputDevice.Play();
         }
 
+        /// <inheritdoc />
         public void Pause()
         {
             _outputDevice?.Pause();
         }
 
+        /// <inheritdoc />
         public void Resume()
         {
             if (_outputDevice?.PlaybackState == PlaybackState.Paused)
@@ -47,12 +59,14 @@ namespace MusicPlayer.MVVM.Services
             }
         }
 
+        /// <inheritdoc />
         public void Stop()
         {
             _outputDevice?.Stop();
-            CleanUp();
+            DisposeCurrentMedia();
         }
 
+        /// <inheritdoc />
         public void SetPosition(double seconds)
         {
             if (_audioFile != null)
@@ -61,12 +75,10 @@ namespace MusicPlayer.MVVM.Services
             }
         }
 
-        // <--- ÚJ METÓDUS: Hangerő beállítása
+        /// <inheritdoc />
         public void SetVolume(double volume)
         {
-            // A dupla (double) értéket átalakítjuk lebegőpontossá (float), amit a NAudio vár.
-            // Biztosítjuk, hogy az érték szigorúan 0.0 és 1.0 között maradjon.
-            _currentVolume = (float)Math.Max(0.0, Math.Min(1.0, volume));
+            _currentVolume = Math.Clamp((float)volume, 0f, 1f);
 
             if (_outputDevice != null)
             {
@@ -74,17 +86,22 @@ namespace MusicPlayer.MVVM.Services
             }
         }
 
-        private void OnPlaybackStopped(object sender, StoppedEventArgs e)
+        /// <summary>
+        /// Event handler triggered by NAudio when playback stops.
+        /// </summary>
+        private void OnPlaybackStopped(object? sender, StoppedEventArgs e)
         {
-            // Ezt akkor hívja meg a NAudio, ha megállt a lejátszás.
-            // Leellenőrizzük, hogy a szám végére értünk-e (nem csak mi nyomtunk Pause/Stop-ot)
+
             if (_audioFile != null && _audioFile.Position >= _audioFile.Length)
             {
-                PlaybackEnded?.Invoke(); // Szólunk a ViewModel-nek, hogy mehet a következő szám
+                PlaybackEnded?.Invoke();
             }
         }
 
-        private void CleanUp()
+        /// <summary>
+        /// Safely unhooks events and disposes of the current audio file and output device.
+        /// </summary>
+        private void DisposeCurrentMedia()
         {
             if (_outputDevice != null)
             {
@@ -97,6 +114,20 @@ namespace MusicPlayer.MVVM.Services
             {
                 _audioFile.Dispose();
                 _audioFile = null;
+            }
+        }
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing unmanaged resources.
+        /// Required to prevent memory leaks from the audio driver when the app closes.
+        /// </summary>
+        public void Dispose()
+        {
+            if (!_isDisposed)
+            {
+                DisposeCurrentMedia();
+                _isDisposed = true;
+                GC.SuppressFinalize(this);
             }
         }
     }

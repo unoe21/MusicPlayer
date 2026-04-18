@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\
+C:\Users\Noe\Documents\GitHub\MusicPlayer\MusicPlayer\MusicPlayer\obj\Debug\net8.0-windows\
 MusicPlayer
 none
 false
-TRACE;DEBUG;NET;NET8_0;NETCOREAPP
-C:\Users\udvar\OneDrive - Óbudai egyetem\Asztal\MusicPlayer\MusicPlayer\MusicPlayer\App.xaml
+TRACE;DEBUG;NET;NET8_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
+C:\Users\Noe\Documents\GitHub\MusicPlayer\MusicPlayer\MusicPlayer\App.xaml
 6758711045
 
-21-896145098
-219-663651259
+24-2059329527
+219-205947868
 MVVM\View\AlbumsView.xaml;MVVM\View\ArtistsView.xaml;MVVM\View\HomeView.xaml;MVVM\View\MainWindow.xaml;MVVM\View\PlaylistsView.xaml;MVVM\View\SongsView.xaml;
 
-True
+False
 

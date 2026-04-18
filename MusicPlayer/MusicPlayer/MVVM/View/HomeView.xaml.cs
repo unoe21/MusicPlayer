@@ -2,18 +2,19 @@
 
 namespace MusicPlayer.MVVM.View
 {
+    /// <summary>
+    /// Interaction logic for HomeView.xaml.
+    /// 
+    /// Clean Code Note: 
+    /// Selection handling is managed via DataBinding in the ViewModel (CurrentTrack property).
+    /// This keeps the View entirely focused on visuals, making the application 
+    /// easier to maintain and test.
+    /// </summary>
     public partial class HomeView : UserControl
     {
         public HomeView()
         {
             InitializeComponent();
-        }
-
-        // Ezt a metódust kereste a XAML!
-        private void Track_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            // Egyelőre üresen hagyjuk, a lényeg, hogy a XAML megnyugodjon és leforduljon.
-            // Később ide beköthetjük, hogy kattintásra egyből induljon is a zene!
         }
     }
 }

@@ -5,7 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MusicPlayer.MVVM.ViewModel"
-        xmlns:model="clr-namespace:MusicPlayer.MVVM.Model"
         mc:Ignorable="d"
         Title="MusicPlayer"
         Height="700" Width="1050"
@@ -14,6 +13,57 @@
         WindowStartupLocation="CenterScreen"
         WindowStyle="None"
         Background="Transparent">
+
+    <Window.Resources>
+        <Style x:Key="volumeToggleButton" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" Background="White" CornerRadius="20" Width="40" Height="40">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#EEE"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="VerticalVolumeSlider" TargetType="Slider">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Slider">
+                        <Grid>
+                            <Border Width="6" CornerRadius="3" Background="#1a2c47" HorizontalAlignment="Center" Margin="0,10,0,10"/>
+                            <Track x:Name="PART_Track">
+                                <Track.DecreaseRepeatButton>
+                                    <RepeatButton Command="{x:Static Slider.DecreaseLarge}">
+                                        <RepeatButton.Template>
+                                            <ControlTemplate TargetType="RepeatButton">
+                                                <Border Width="6" CornerRadius="3" Background="#fc3c44" HorizontalAlignment="Center"/>
+                                            </ControlTemplate>
+                                        </RepeatButton.Template>
+                                    </RepeatButton>
+                                </Track.DecreaseRepeatButton>
+                                <Track.Thumb>
+                                    <Thumb>
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Ellipse Width="18" Height="18" Fill="#fc3c44" Stroke="White" StrokeThickness="3"/>
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
 
     <Border Background="#091d38" CornerRadius="25" MouseDown="Border_MouseDown">
         <Grid>
@@ -24,234 +74,104 @@
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="100"/>
+                <RowDefinition Height="110"/>
             </Grid.RowDefinitions>
 
             <Border Background="#091d38" CornerRadius="25 0 0 25" Grid.RowSpan="2">
                 <StackPanel Margin="0 30 0 0">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="30 0 0 0">
-                        <Ellipse Fill="#ff605c" Width="12" Height="12" MouseDown="Ellipse_MouseDown_Red"/>
-                        <Ellipse Fill="#ffbd44" Width="12" Height="12" Margin="7 0" MouseDown="Ellipse_MouseDown_Yellow"/>
-                        <Ellipse Fill="#00ca4e" Width="12" Height="12" MouseDown="Ellipse_MouseDown_Green"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="30 0 0 20">
+                        <Ellipse Fill="#ff605c" Width="12" Height="12" Cursor="Hand" MouseDown="Ellipse_MouseDown_Red"/>
+                        <Ellipse Fill="#ffbd44" Width="12" Height="12" Margin="7 0" Cursor="Hand" MouseDown="Ellipse_MouseDown_Yellow"/>
+                        <Ellipse Fill="#00ca4e" Width="12" Height="12" Cursor="Hand" MouseDown="Ellipse_MouseDown_Green"/>
                     </StackPanel>
 
                     <TextBlock Text="LIBRARY" Style="{StaticResource menuTitle}"/>
-
-                    <Button Name="Home" Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Home">
+                    <Button Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Home">
                         <Grid>
                             <TextBlock Text="Home" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
+                            <Icon:PackIconMaterial Kind="Home" Style="{StaticResource meanuButtonIcon}"/>
                         </Grid>
                     </Button>
-
-                    <Button Name="Playlists" Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Playlists">
+                    <Button Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Playlists">
                         <Grid>
                             <TextBlock Text="Playlists" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
+                            <Icon:PackIconMaterial Kind="PlaylistMusic" Style="{StaticResource meanuButtonIcon}"/>
                         </Grid>
                     </Button>
-
-                    <Button Name="Artists" Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Artists">
+                    <Button Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Artists">
                         <Grid>
                             <TextBlock Text="Artists" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
+                            <Icon:PackIconMaterial Kind="AccountMusic" Style="{StaticResource meanuButtonIcon}"/>
                         </Grid>
                     </Button>
-
-                    <Button Name="Albums" Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Albums">
+                    <Button Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Albums">
                         <Grid>
                             <TextBlock Text="Albums" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
+                            <Icon:PackIconMaterial Kind="Album" Style="{StaticResource meanuButtonIcon}"/>
                         </Grid>
                     </Button>
-
-                    <Button Name="Songs" Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Songs">
+                    <Button Style="{StaticResource menuButton}" Command="{Binding NavigateToCommand}" CommandParameter="Songs">
                         <Grid>
                             <TextBlock Text="Songs" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
+                            <Icon:PackIconMaterial Kind="MusicNote" Style="{StaticResource meanuButtonIcon}"/>
                         </Grid>
                     </Button>
-
-                    <TextBlock Text="DISCOVER" Style="{StaticResource menuTitle}"/>
-
-                    <Button Style="{StaticResource menuButton}" Command="{Binding OpenFileCommand}">
-                        <Grid>
-                            <TextBlock Text="Search" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
-                        </Grid>
-                    </Button>
-
-                    <Button Style="{StaticResource menuButton}">
-                        <Grid>
-                            <TextBlock Text="Radio" Margin="0 0 0 2"/>
-                            <Icon:PackIconMaterial Style="{StaticResource meanuButtonIcon}"/>
-                        </Grid>
-                    </Button>
-
                 </StackPanel>
             </Border>
 
             <ContentControl Grid.Column="1" Content="{Binding CurrentView}"/>
 
-            <Border Grid.Row="1" Grid.Column="2" Grid.ColumnSpan="2" Background="#fc3c44" CornerRadius="40 0 20 0" Margin="40 0 0 0">
-                <Grid Margin="10 0 30 0">
+            <Border Grid.Row="1" Grid.Column="1" Background="#fc3c44" CornerRadius="40 0 20 0" Margin="40 0 0 0">
+                <Grid Margin="20 0 30 0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="250"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="80"/>
                     </Grid.ColumnDefinitions>
 
-                    <StackPanel Grid.Column="0" Orientation="Horizontal">
-                        <Ellipse Width="60" Height="60" Margin="20 0 0 0">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding CoverImage}"/>
-                            </Ellipse.Fill>
-                        </Ellipse>
-
-                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Margin="20 0 10 0" Width="120">
-                            <ScrollViewer Name="artistScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
-                                <TextBlock x:Name="artist_name" Text="{Binding Artist}" Foreground="White" FontSize="20" FontWeight="Bold" TextTrimming="CharacterEllipsis">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform x:Name="artist_translateTransform" />
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </ScrollViewer>
-
-                            <ScrollViewer Name="musicScroll" HorizontalScrollBarVisibility="Hidden" VerticalScrollBarVisibility="Disabled">
-                                <TextBlock x:Name="music_name" Text="{Binding Title}" Foreground="White" FontSize="16" FontWeight="SemiBold" TextTrimming="CharacterEllipsis">
-                                    <TextBlock.RenderTransform>
-                                        <TranslateTransform x:Name="music_translateTransform" />
-                                    </TextBlock.RenderTransform>
-                                </TextBlock>
-                            </ScrollViewer>
+                    <StackPanel Grid.Column="0" Orientation="Horizontal" VerticalAlignment="Center">
+                        <Border Width="60" Height="60" CornerRadius="30" ClipToBounds="True" Background="#1a2c47">
+                            <Image Source="{Binding CoverImage}" Stretch="UniformToFill"/>
+                        </Border>
+                        <StackPanel VerticalAlignment="Center" Margin="15 0 0 0" Width="150">
+                            <TextBlock Text="{Binding Artist}" Foreground="White" FontSize="18" FontWeight="Bold" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Title}" Foreground="White" FontSize="14" Opacity="0.8" TextTrimming="CharacterEllipsis"/>
                         </StackPanel>
                     </StackPanel>
 
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 3">
-                            <Button Command="{Binding PreviousTrackCommand}" Style="{StaticResource playerButton}" Width="45" Height="45">
-                                <Icon:PackIconMaterial Kind="SkipPrevious" Style="{StaticResource playerButtonIcon}" Width="22" Height="22"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 0 0 5">
+                            <Button Command="{Binding PreviousTrackCommand}" Style="{StaticResource playerButton}" Width="40" Height="40">
+                                <Icon:PackIconMaterial Kind="SkipPrevious" Style="{StaticResource playerButtonIcon}"/>
                             </Button>
-
-                            <Button Command="{Binding PlayPauseCommand}" Style="{StaticResource playerButton}" Width="55" Height="55" Margin="20 0">
-                                <Icon:PackIconMaterial x:Name="PlayPauseIcon" Kind="{Binding PlayPauseIconKind}" Style="{StaticResource playerButtonIcon}" Width="28" Height="28"/>
+                            <Button Command="{Binding PlayPauseCommand}" Style="{StaticResource playerButton}" Width="50" Height="50" Margin="25 0">
+                                <Icon:PackIconMaterial Kind="{Binding PlayPauseIconKind}" Style="{StaticResource playerButtonIcon}" Width="25" Height="25"/>
                             </Button>
-
-                            <Button Command="{Binding NextTrackCommand}" Style="{StaticResource playerButton}" Width="45" Height="45">
-                                <Icon:PackIconMaterial Kind="SkipNext" Style="{StaticResource playerButtonIcon}" Width="22" Height="22"/>
+                            <Button Command="{Binding NextTrackCommand}" Style="{StaticResource playerButton}" Width="40" Height="40">
+                                <Icon:PackIconMaterial Kind="SkipNext" Style="{StaticResource playerButtonIcon}"/>
                             </Button>
                         </StackPanel>
-
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                            <TextBlock Text="{Binding CurrentTimeString}" 
-                                       Foreground="White" FontSize="12" FontWeight="SemiBold"
-                                       VerticalAlignment="Center" Margin="0 0 10 0" Width="35" TextAlignment="Right"/>
-
-                            <Slider x:Name="ProgressSlider"
-                                    Minimum="0"
-                                    Maximum="{Binding CurrentTrackDurationSeconds}"
-                                    Value="{Binding CurrentPositionSeconds, Mode=TwoWay}"
-                                    PreviewMouseUp="ProgressSlider_PreviewMouseUp"
-                                    PreviewMouseDown="ProgressSlider_PreviewMouseDown"
-                                    Style="{DynamicResource SliderStyle1}"
-                                    IsSelectionRangeEnabled="True" VerticalAlignment="Center" 
-                                    Width="300"
-                                    IsMoveToPointEnabled="True" 
-                                    SelectionEnd="{Binding ElementName=ProgressSlider, Path=Value}"/>
-
-                            <TextBlock Text="{Binding TotalTimeString}" 
-                                       Foreground="White" FontSize="12" FontWeight="SemiBold"
-                                       VerticalAlignment="Center" Margin="10 0 0 0" Width="35"/>
+                            <TextBlock Text="{Binding CurrentTimeString}" Foreground="White" FontSize="11" Width="40" TextAlignment="Right"/>
+                            <Slider x:Name="ProgressSlider" Width="350" Margin="10 0" Minimum="0" Maximum="{Binding CurrentTrackDurationSeconds}" 
+                                    Value="{Binding CurrentPositionSeconds, Mode=TwoWay}" PreviewMouseUp="ProgressSlider_PreviewMouseUp" 
+                                    PreviewMouseDown="ProgressSlider_PreviewMouseDown" Style="{StaticResource SliderStyle1}" IsMoveToPointEnabled="True"/>
+                            <TextBlock Text="{Binding TotalTimeString}" Foreground="White" FontSize="11" Width="40"/>
                         </StackPanel>
                     </StackPanel>
 
-                    <Grid Grid.Column="2" VerticalAlignment="Center">
-                        <ToggleButton x:Name="VolumeButton" Cursor="Hand" Background="White" Width="40" Height="40" BorderThickness="0">
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Border Background="{TemplateBinding Background}" CornerRadius="20">
-                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
+                    <Grid Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+                        <ToggleButton x:Name="VolumeButton" Style="{StaticResource volumeToggleButton}" Cursor="Hand">
                             <Icon:PackIconMaterial Kind="VolumeHigh" Foreground="#fc3c44" Width="20" Height="20"/>
                         </ToggleButton>
-
-                        <Popup IsOpen="{Binding IsChecked, ElementName=VolumeButton}" 
-                               StaysOpen="False" 
-                               PlacementTarget="{Binding ElementName=VolumeButton}" 
-                               Placement="Top" 
-                               AllowsTransparency="True" 
-                               VerticalOffset="-15"
-                               PopupAnimation="Fade">
-
-                            <Border Background="#091d38" 
-                                    CornerRadius="15" 
-                                    BorderThickness="2" 
-                                    BorderBrush="#fc3c44" 
-                                    Margin="15">
-                                <Border.Effect>
-                                    <DropShadowEffect BlurRadius="15" Color="Black" Opacity="0.5"/>
-                                </Border.Effect>
-
-                                <Border.Resources>
-                                    <Style x:Key="VerticalVolumeSlider" TargetType="Slider">
-                                        <Setter Property="Template">
-                                            <Setter.Value>
-                                                <ControlTemplate TargetType="Slider">
-                                                    <Grid>
-                                                        <Border Width="6" CornerRadius="3" Background="#1a2c47" HorizontalAlignment="Center" Margin="0,10,0,10"/>
-                                                        <Track x:Name="PART_Track">
-                                                            <Track.DecreaseRepeatButton>
-                                                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}">
-                                                                    <RepeatButton.Template>
-                                                                        <ControlTemplate TargetType="RepeatButton">
-                                                                            <Border Width="6" CornerRadius="3" Background="#fc3c44" HorizontalAlignment="Center"/>
-                                                                        </ControlTemplate>
-                                                                    </RepeatButton.Template>
-                                                                </RepeatButton>
-                                                            </Track.DecreaseRepeatButton>
-                                                            <Track.IncreaseRepeatButton>
-                                                                <RepeatButton Command="{x:Static Slider.IncreaseLarge}">
-                                                                    <RepeatButton.Template>
-                                                                        <ControlTemplate TargetType="RepeatButton">
-                                                                            <Border Background="Transparent"/>
-                                                                        </ControlTemplate>
-                                                                    </RepeatButton.Template>
-                                                                </RepeatButton>
-                                                            </Track.IncreaseRepeatButton>
-                                                            <Track.Thumb>
-                                                                <Thumb>
-                                                                    <Thumb.Template>
-                                                                        <ControlTemplate TargetType="Thumb">
-                                                                            <Ellipse Width="18" Height="18" Fill="#fc3c44" Stroke="White" StrokeThickness="3" Cursor="Hand">
-                                                                                <Ellipse.Effect>
-                                                                                    <DropShadowEffect BlurRadius="5" ShadowDepth="2" Color="Black" Opacity="0.4"/>
-                                                                                </Ellipse.Effect>
-                                                                            </Ellipse>
-                                                                        </ControlTemplate>
-                                                                    </Thumb.Template>
-                                                                </Thumb>
-                                                            </Track.Thumb>
-                                                        </Track>
-                                                    </Grid>
-                                                </ControlTemplate>
-                                            </Setter.Value>
-                                        </Setter>
-                                    </Style>
-                                </Border.Resources>
-
-                                <Slider Orientation="Vertical" 
-                                        Minimum="0" Maximum="100" 
-                                        Value="{Binding Volume, Mode=TwoWay}" 
-                                        Height="200" 
-                                        Margin="15 20 15 20"
-                                        Style="{StaticResource VerticalVolumeSlider}"/>
+                        <Popup IsOpen="{Binding IsChecked, ElementName=VolumeButton}" StaysOpen="False" PlacementTarget="{Binding ElementName=VolumeButton}" 
+                               Placement="Top" AllowsTransparency="True" VerticalOffset="-10">
+                            <Border Background="#091d38" CornerRadius="15" BorderThickness="1" BorderBrush="#fc3c44" Padding="5">
+                                <Slider Orientation="Vertical" Height="150" Minimum="0" Maximum="100" Value="{Binding Volume, Mode=TwoWay}" 
+                                        Style="{StaticResource VerticalVolumeSlider}" Margin="10"/>
                             </Border>
                         </Popup>
                     </Grid>
-
                 </Grid>
             </Border>
         </Grid>
