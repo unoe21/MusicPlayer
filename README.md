@@ -1,6 +1,5 @@
 # 🎵 MusicPlayer MVVM
 
-<!-- Badges (These render as nice visual tags on GitHub) -->
 ![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet)
 ![WPF](https://img.shields.io/badge/WPF-Desktop_App-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)
@@ -9,11 +8,32 @@
 
 ---
 
-## 📸 Preview
+## 📸 Screenshots
 
-<!-- IMPORTANT: Add a screenshot or a short GIF of your app working! -->
-![MusicPlayer Screenshot](docs/screenshot.png) 
-*(Note: Replace with actual screenshot of your application)*
+<div align="center">
+  <table>
+    <tr>
+      <td align="center">
+        <img src="docs/home.png" width="400">
+        <br><b>Home / Library View</b>
+      </td>
+      <td align="center">
+        <img src="docs/playlist.png" width="400">
+        <br><b>Now Playing</b>
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <img src="docs/albums.png" width="400">
+        <br><b>Playlist Management</b>
+      </td>
+      <td align="center">
+        <img src="docs/songs.png" width="400">
+        <br><b>Settings</b>
+      </td>
+    </tr>
+  </table>
+</div>
 
 ---
 
