@@ -149,7 +149,7 @@ namespace MusicPlayer.MVVM.ViewModel
         {
             if (Albums.Count == 0) return;
 
-            // Clean Code: Modern .NET uses Random.Shared for better performance and thread-safety
+            // Modern .NET uses Random.Shared for better performance and thread-safety
             int randomIndex = Random.Shared.Next(Albums.Count);
 
             Album daily = Albums[randomIndex];

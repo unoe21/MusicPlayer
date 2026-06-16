@@ -31,7 +31,7 @@
 This project was built with a strong emphasis on maintainability, scalability, and clean architecture:
 
 * **Strict MVVM Pattern:** ViewModels are split into partial classes (`Playback`, `Navigation`, `Playlists`) using source generators to maintain the Single Responsibility Principle.
-* **Dependency Inversion (IoC):** High-level modules depend on abstractions (e.g., `IAudioPlayerService`, `IOpenFileDialogService`) rather than concrete UI implementations, making the core logic highly testable.
+* **Dependency Inversion (IoC):** High-level modules depend on abstractions (`IAudioPlayerService`, `IOpenFileDialogService`) rather than concrete UI implementations, making the core logic highly testable.
 * **Resource Management:** Optimized XAML grid structures ensure consistent layout behavior and efficient memory usage without visual stuttering.
 
 ---
@@ -42,11 +42,3 @@ This project was built with a strong emphasis on maintainability, scalability, a
 * **[CommunityToolkit.Mvvm](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/)** - Used for source-generated observable properties and commands, keeping boilerplate code to a minimum.
 * **[NAudio](https://github.com/naudio/NAudio)** - Primary audio engine for robust playback and stream management.
 * **[MahApps.Metro.IconPacks.Material](https://github.com/MahApps/MahApps.Metro.IconPacks)** - Vector-based UI iconography for crisp, scalable visuals.
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-* [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0)
-* Visual Studio 2022 (or your preferred C# IDE)
