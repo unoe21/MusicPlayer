@@ -15,7 +15,7 @@
     <tr>
       <td align="center">
         <img src="docs/home.png" width="400">
-        <br><b>Home / Daily Artist-s Album View</b>
+        <br><b>Home / Daily Artist's Album View</b>
       </td>
       <td align="center">
         <img src="docs/playlist.png" width="400">
