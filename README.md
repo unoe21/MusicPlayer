@@ -1,4 +1,4 @@
-# 🎵 MusicPlayer MVVM
+# MusicPlayer MVVM
 
 ![.NET 8](https://img.shields.io/badge/.NET-8.0-512BD4?style=flat-square&logo=dotnet)
 ![WPF](https://img.shields.io/badge/WPF-Desktop_App-blue?style=flat-square)
@@ -8,28 +8,28 @@
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 <div align="center">
   <table>
     <tr>
       <td align="center">
         <img src="docs/home.png" width="400">
-        <br><b>Home / Library View</b>
+        <br><b>Home / Daily Artist-s Album View</b>
       </td>
       <td align="center">
         <img src="docs/playlist.png" width="400">
-        <br><b>Now Playing</b>
+        <br><b>Playlist make view</b>
       </td>
     </tr>
     <tr>
       <td align="center">
         <img src="docs/albums.png" width="400">
-        <br><b>Playlist Management</b>
+        <br><b>Albums view</b>
       </td>
       <td align="center">
         <img src="docs/songs.png" width="400">
-        <br><b>Settings</b>
+        <br><b>Songs view</b>
       </td>
     </tr>
   </table>
@@ -37,7 +37,7 @@
 
 ---
 
-## ✨ Features
+## Features
 
 * 🎶 **Library Browsing:** Artist, Album, and Song-based library browsing with UI virtualization for high-performance listing.
 * 📋 **Playlist Management:** Local playlist management system with track selection overlay and persistent data binding.
@@ -46,7 +46,7 @@
 
 ---
 
-## 🏗️ Architecture and Clean Code
+## Architecture and Clean Code
 
 This project was built with a strong emphasis on maintainability, scalability, and clean architecture:
 
@@ -56,7 +56,7 @@ This project was built with a strong emphasis on maintainability, scalability, a
 
 ---
 
-## 📚 Dependencies / Tech Stack
+## Dependencies / Tech Stack
 
 * **[C# / .NET 8.0](https://dotnet.microsoft.com/)** - Core framework.
 * **[CommunityToolkit.Mvvm](https://learn.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/)** - Used for source-generated observable properties and commands, keeping boilerplate code to a minimum.
